@@ -10,7 +10,11 @@ console.log('Progress: ', progress);
 
 const puppeteer = require('puppeteer');
 const timer = ms => new Promise(res => setTimeout(res, ms));
-
+const {
+	listenPromise,
+	firePromise,
+	enableTagPromise
+} = require('./eventPromise')
 const navigationOptions = {
     timeout: 5 * 60 * 1000,
     waitUntil: ['load', 'domcontentloaded', 'networkidle0']
@@ -21,6 +25,8 @@ const puppeteerConfig = {
     product: 'chrome',
     headless,
     args: [
+        '--disable-web-security',
+        '--disable-features=IsolateOrigins,site-per-process',
         '--no-sandbox',
         '--disable-setuid-sandbox',
         // '--disable-background-timer-throttling',
@@ -34,75 +40,106 @@ const puppeteerConfig = {
     executablePath: 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'
 };
 
-const USERNAME = 'Conti_Alessandro';
-const PASSWORD = 'Conti';
+const USERNAME = 'USER440861189';
+const PASSWORD = '4417085';
+const domain = 'https://cmbhs.opnebinail.it/aula/';
 
-const domain = 'https://ascen.piattaformafad.com/';
-
-var dialogPromise
-async function login(page_1){
-    await page_1.goto(domain, navigationOptions),
-    await page_1.type('#sicuruser', USERNAME),
-    await page_1.type('#sicurpass', PASSWORD),
-    page_1.click('button.sicurweb-login-submit'),
-    await page_1.waitForNavigation(navigationOptions),
-    await dialogPromise,
-    await page_1.evaluate(() => showCorsiFad(true))
-    await timer(3 * 1000)
-    await page_1.evaluate(() => openCorsoTable("yui-rec0"))
-    await timer(3 * 1000)
-    await page_1.evaluate(() => showPlayerCorso())
-    await timer(3 * 1000)
+var page_1
+function getTime(timeStr){
+    return timeStr.replace(/\s/g, '').split('/').map(duration => duration.split(':')
+        .reverse()
+        .map( (x, i) => x * Math.pow(60, i))
+        .reduce((x, y) => x + y)
+    )
 }
+async function postNavigationReset(){
+    await page_1.evaluate(() => {
+        $('.box-confirm').off('click')
+    })
+}
+
+
 (async () => {
     var browser = await puppeteer.launch(puppeteerConfig).catch( error => {
         console.error('Could not launch browser');
         throw error;
     });
-    var page_1 = (await browser.pages())[0];
+    page_1 = (await browser.pages())[0];
 
     module.exports = { browser, page_1 };
     page_1.on('pageerror', (err) => {
         console.error(err);
     });
 
-    function dialog(dialog) {
-        dialogPromise = new Promise(async res => {
-            console.log("Dialog message: " + dialog.message())
-            if(dialog.message() === "Account in uso. Disconnettere l'altro utente?"){
-                await dialog.accept()
-                await page_1.type('#sicuruser', USERNAME)
-                await page_1.type('#sicurpass', PASSWORD)
-                page_1.click('button.sicurweb-login-submit')
-                await page_1.waitForNavigation(navigationOptions)
-            }
-            if(dialog.message().includes("Vuoi riprendere dall'ultima slide")){
-                await dialog.accept()
-            }
-            res();
-        })
-    }
-    page_1.on('dialog', dialog); 
-
     await page_1.setViewport(viewport),
-    await login(page_1)
+    await page_1.goto(domain, navigationOptions),
+    await page_1.select('select.form-control', 'INT'),
+    await page_1.type('.form-horizontal .form-group:nth-of-type(2) input', USERNAME),
+    await page_1.type('.form-horizontal .form-group:nth-of-type(3) input', PASSWORD),
+    page_1.click('.form-horizontal .form-group:nth-of-type(4) button'),
+    await page_1.waitForNavigation(navigationOptions),
+    page_1.click('.pull-right a:nth-of-type(2)'),
+    await page_1.waitForNavigation(navigationOptions)
+
+    var pdfNamePath = './pdfs/LAVORO/pdf_'
+
+    var endCycle_1 = false
+    while(!endCycle_1){
+        await postNavigationReset()
+        slides = await page_1.$$('li.has-sub.open > ul > li > a')
+        await slides[slideIndex].click()
+        await page_1.waitForNavigation(navigationOptions)
+        
+        var iframe = await page_1.$('iframe.embed-responsive-item');
+        var frame = await iframe.contentFrame();
+
+        var playButton = await frame.$('button.component_base.std.play')
+        var playing = async () => await playButton.evaluate(elem => elem.getAttribute('aria-label') != 'play')
+
+        var isPlaying = await playing()
+        if(!isPlaying){
+            await playButton.evaluate(elem => elem.click())
+        }
+        var counter = 0
+        var endCycle_2 = false
+        while(!endCycle_2){
+            var videoEnded = false
+            while(!videoEnded){
+                var labelTime = await frame.$eval('.label.time', elem => elem.textContent)
+
+            }
+            labelTime = getTime(labelTime)[1] - getTime(labelTime)[0]
+            console.log('Time: ' + labelTime + ' Waiting: ' + (9/10) * labelTime)
+            await timer( (9/10) * labelTime)
+            await playButton.click()
+            // await page_1.pdf({ path: pdfNamePath + slideIndex + '.pdf' })
+            var path = pdfNamePath + slideIndex + '_' + counter + '.png'
+            if (!fs.existsSync(path))
+                await page_1.screenshot({ path })
+            counter++
+            var succButton = await frame.$('button.component_base.next')
+            var disabled = await succButton.evaluate(elem => elem.getAttribute('disabled') != null)
+            if(!disabled) {
+                await succButton.evaluate(elem => elem.click())
+            }
+            else endCycle_2 = true
+        }
+        slideIndex++
+        progress.slideIndex++
+        console.log('Progress: ', progress);
+        fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4));
+        if(slideIndex > 10) endCycle_1 = true
+    }
 
 
 
-    //closes all open folders!
-    await page_1.evaluate(() => $('#ygtvc9 > .ygtvitem').find('.ygtvtm').click())
-    //Open current folder
-    await page_1.evaluate(folderIndex => $('#ygtvc9 > .ygtvitem').find('.ygtvtp, .ygtvlp')
-        .get(folderIndex).click()
-    , folderIndex)
-    await timer(2 * 1000)
 
+    return
 
+ 
     var slide = await page_1.$$('#ygtvc9 > .ygtvitem > .ygtvchildren > .ygtvitem .ygtvcontent')
     slide = slide[slideIndex]
-    var slideName = await slide.$$eval('td', elem => elem[1].textContent)
     await slide.click()
-    await page_1.waitForSelector('.ps-current ul li img')
     var images = await page_1.evaluate(() => $('.ps-current ul li img').map(function(){
         return $(this).attr('src')
     }).toArray())

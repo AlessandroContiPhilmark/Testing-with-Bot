@@ -1,7 +1,7 @@
 {
-    "headless": true,
+    "headless": false,
     "overrideImages": false,
     "createImages": true,
     "folderIndex": 1,
-    "slideIndex": 5
+    "slideIndex": 0
 }
