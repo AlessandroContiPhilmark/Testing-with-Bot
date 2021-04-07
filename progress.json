@@ -1,4 +1,7 @@
 {
-    "createImages": false,
-    "slideIndex": 2
+    "headless": true,
+    "overrideImages": false,
+    "createImages": true,
+    "folderIndex": 1,
+    "slideIndex": 5
 }

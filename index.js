@@ -1,7 +1,11 @@
 require('./asyncForEach').asyncCallback = true;
 const fs = require('fs');
 
-var progress = { slideIndex, createImages } = JSON.parse(fs.readFileSync('./progress.json'));
+var progress = {
+    slideIndex, createImages,
+    folderIndex, overrideImages,
+    headless
+} = JSON.parse(fs.readFileSync('./progress.json'));
 console.log('Progress: ', progress);
 
 const puppeteer = require('puppeteer');
@@ -15,7 +19,7 @@ const viewport = { width: 1366, height: 613, deviceScaleFactor: 1 };
 const puppeteerConfig = {
     ignoreHTTPSErrors: true,
     product: 'chrome',
-    headless: false,
+    headless,
     args: [
         '--no-sandbox',
         '--disable-setuid-sandbox',
@@ -35,6 +39,21 @@ const PASSWORD = 'Conti';
 
 const domain = 'https://ascen.piattaformafad.com/';
 
+var dialogPromise
+async function login(page_1){
+    await page_1.goto(domain, navigationOptions),
+    await page_1.type('#sicuruser', USERNAME),
+    await page_1.type('#sicurpass', PASSWORD),
+    page_1.click('button.sicurweb-login-submit'),
+    await page_1.waitForNavigation(navigationOptions),
+    await dialogPromise,
+    await page_1.evaluate(() => showCorsiFad(true))
+    await timer(3 * 1000)
+    await page_1.evaluate(() => openCorsoTable("yui-rec0"))
+    await timer(3 * 1000)
+    await page_1.evaluate(() => showPlayerCorso())
+    await timer(3 * 1000)
+}
 (async () => {
     var browser = await puppeteer.launch(puppeteerConfig).catch( error => {
         console.error('Could not launch browser');
@@ -47,7 +66,6 @@ const domain = 'https://ascen.piattaformafad.com/';
         console.error(err);
     });
 
-    var dialogPromise
     function dialog(dialog) {
         dialogPromise = new Promise(async res => {
             console.log("Dialog message: " + dialog.message())
@@ -67,18 +85,18 @@ const domain = 'https://ascen.piattaformafad.com/';
     page_1.on('dialog', dialog); 
 
     await page_1.setViewport(viewport),
-    await page_1.goto(domain, navigationOptions),
-    await page_1.type('#sicuruser', USERNAME),
-    await page_1.type('#sicurpass', PASSWORD),
-    page_1.click('button.sicurweb-login-submit'),
-    await page_1.waitForNavigation(navigationOptions),
-    await dialogPromise,
-    await page_1.evaluate(() => showCorsiFad(true))
-    await timer(3 * 1000)
-    await page_1.evaluate(() => openCorsoTable("yui-rec0"))
-    await timer(3 * 1000)
-    await page_1.evaluate(() => showPlayerCorso())
-    await timer(3 * 1000)
+    await login(page_1)
+
+
+
+    //closes all open folders!
+    await page_1.evaluate(() => $('#ygtvc9 > .ygtvitem').find('.ygtvtm').click())
+    //Open current folder
+    await page_1.evaluate(folderIndex => $('#ygtvc9 > .ygtvitem').find('.ygtvtp, .ygtvlp')
+        .get(folderIndex).click()
+    , folderIndex)
+    await timer(2 * 1000)
+
 
     var slide = await page_1.$$('#ygtvc9 > .ygtvitem > .ygtvchildren > .ygtvitem .ygtvcontent')
     slide = slide[slideIndex]
@@ -95,15 +113,21 @@ const domain = 'https://ascen.piattaformafad.com/';
     var folderPath = mainFolder + "/" + slideName
     if (!fs.existsSync(folderPath))
         fs.mkdirSync(folderPath)
-    if(createImages)
+    if(createImages){
+        var page_2 = await browser.newPage()
+        await page_2.setViewport(viewport)
         await images.asyncForEach(async (imgUrl, index) => {
-            var url = domain + 'fad/' + imgUrl
-            await page_1.goto(url, navigationOptions)
-            console.log('Navigated to: ' + url)
-            var path = folderPath + "/" + slideName + "_" + index + ".png"
-            await page_1.screenshot({ path })
-            console.log('Created: ' + path)
+            var path = folderPath + "/" + slideName + "_" + (++index) + ".png"
+            if(overrideImages || !fs.existsSync(path)){
+                var url = domain + 'fad/' + imgUrl
+                await page_2.goto(url, navigationOptions)
+                console.log('Navigated to: ' + url)
+                await page_2.screenshot({ path })
+                console.log('Created: ' + path)
+            } else console.log('Already existing: ' + path)
         })
+        await page_2.close()
+    }
     await timer(3 * 1000)
     var endCycle = false
     while(!endCycle){
