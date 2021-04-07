@@ -97,7 +97,7 @@ async function postNavigationReset(){
         var playing = async () => await playButton.evaluate(elem => elem.getAttribute('aria-label') != 'play')
 
         var isPlaying = await playing()
-        if(!isPlaying){
+        if(!isPlaying) {
             await playButton.evaluate(elem => elem.click())
         }
         var counter = 0
@@ -105,12 +105,14 @@ async function postNavigationReset(){
         while(!endCycle_2){
             var videoEnded = false
             while(!videoEnded){
+                await timer(1000)
                 var labelTime = await frame.$eval('.label.time', elem => elem.textContent)
-
+                labelTime = getTime(labelTime)
+                if(labelTime[1] - labelTime[0] <= 2) {
+                    console.log('Advancing time: ' + labelTime[0] + ' | ' + labelTime[1])
+                    videoEnded = true
+                }
             }
-            labelTime = getTime(labelTime)[1] - getTime(labelTime)[0]
-            console.log('Time: ' + labelTime + ' Waiting: ' + (9/10) * labelTime)
-            await timer( (9/10) * labelTime)
             await playButton.click()
             // await page_1.pdf({ path: pdfNamePath + slideIndex + '.pdf' })
             var path = pdfNamePath + slideIndex + '_' + counter + '.png'
