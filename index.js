@@ -8,7 +8,9 @@ var progress = {
 } = JSON.parse(fs.readFileSync('./progress.json'));
 console.log('Progress: ', progress);
 
-const puppeteer = require('puppeteer');
+const puppeteer = require('puppeteer-extra');
+const StealthPlugin = require('puppeteer-extra-plugin-stealth')
+puppeteer.use(StealthPlugin())
 const timer = ms => new Promise(res => setTimeout(res, ms));
 const {
 	listenPromise,
@@ -24,11 +26,14 @@ const puppeteerConfig = {
     ignoreHTTPSErrors: true,
     product: 'chrome',
     headless,
+    // ignoreDefaultArgs: ['--mute-audio'],
     args: [
         '--disable-web-security',
         '--disable-features=IsolateOrigins,site-per-process',
         '--no-sandbox',
         '--disable-setuid-sandbox',
+        '--autoplay-policy=no-user-gesture-required',
+        '--mute-audio',
         // '--disable-background-timer-throttling',
         // '--disable-backgrounding-occluded-windows',
         // '--disable-renderer-backgrounding',
@@ -39,7 +44,7 @@ const puppeteerConfig = {
     // executablePath: './node_modules/chromium/lib/chromium/chrome-win/chrome.exe'
     executablePath: 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'
 };
-
+const userAgent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.114 Safari/537.36';
 const USERNAME = 'USER440861189';
 const PASSWORD = '4417085';
 const domain = 'https://cmbhs.opnebinail.it/aula/';
@@ -65,7 +70,10 @@ async function postNavigationReset(){
         throw error;
     });
     page_1 = (await browser.pages())[0];
-
+    await page_1.setUserAgent(userAgent)
+    await page_1.setExtraHTTPHeaders({
+        'Accept-Language': 'en-GB,en-US;q=0.9,en;q=0.8'
+    });
     module.exports = { browser, page_1 };
     page_1.on('pageerror', (err) => {
         console.error(err);
@@ -96,6 +104,9 @@ async function postNavigationReset(){
         var playButton = await frame.$('button.component_base.std.play')
         var playing = async () => await playButton.evaluate(elem => elem.getAttribute('aria-label') != 'play')
 
+        await page_1.click('#colScorm .embed-responsive button.btn.btn-default')
+        await page_1.hover('iframe')
+
         var isPlaying = await playing()
         if(!isPlaying) {
             await playButton.evaluate(elem => elem.click())
@@ -116,8 +127,10 @@ async function postNavigationReset(){
             await playButton.click()
             // await page_1.pdf({ path: pdfNamePath + slideIndex + '.pdf' })
             var path = pdfNamePath + slideIndex + '_' + counter + '.png'
-            if (!fs.existsSync(path))
+            if (!fs.existsSync(path)){
+                await page_1.hover('iframe')
                 await page_1.screenshot({ path })
+            }
             counter++
             var succButton = await frame.$('button.component_base.next')
             var disabled = await succButton.evaluate(elem => elem.getAttribute('disabled') != null)
@@ -126,6 +139,7 @@ async function postNavigationReset(){
             }
             else endCycle_2 = true
         }
+        await page_1.click('#colScorm .embed-responsive button.btn.btn-default')
         slideIndex++
         progress.slideIndex++
         console.log('Progress: ', progress);
