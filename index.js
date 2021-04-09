@@ -66,6 +66,7 @@ async function start(){
     var terminate = false
     async function stop(){
         console.log('Stopping')
+        terminate = true
         try { await page_1.close(); } catch (error) {
             console.log('Error while closing page')
         }
@@ -85,9 +86,9 @@ async function start(){
                     await timer(3 * 1000)
                     console.log('Checking for error modal...')
                     terminate = await page_1.evaluate(() => $('#modal-errorBlock.in').get(0) != undefined)
+                    if(terminate) console.log('Detected error modal, shutting down page')
                 } catch (error) {}
             }
-            console.log('Detected error modal, shutting down page')
         })()
     
         browser = await puppeteer.launch(puppeteerConfig).catch( error => {
@@ -177,10 +178,8 @@ async function start(){
             if(slideIndex > 10) endCycle_1 = true
         }
         console.log('Slides finished, closing browser');
-        await page_1.close();
-        await browser.close(); 
+        await stop()
     } catch (error) {
-        terminate = true
         console.log('Error occurred: ' + error)
         await stop()
         console.log('Restarting in 10 seconds')
