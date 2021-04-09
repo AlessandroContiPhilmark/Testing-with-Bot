@@ -18,12 +18,15 @@ const {
 	enableTagPromise
 } = require('./eventPromise')
 const navigationOptions = {
-    timeout: 5 * 60 * 1000,
+    timeout: 2 * 60 * 1000,
     waitUntil: ['load', 'domcontentloaded', 'networkidle0']
+};
+const waitForSelectorOptions = {
+    timeout: 2 * 60 * 1000
 };
 const viewport = { width: 1366, height: 613, deviceScaleFactor: 1 };
 const puppeteerConfig = {
-    slowMo: 300,
+    slowMo: 100,
     ignoreHTTPSErrors: true,
     product: 'chrome',
     headless,
@@ -67,11 +70,8 @@ async function start(){
     async function stop(){
         console.log('Stopping')
         terminate = true
-        try { await page_1.close(); } catch (error) {
-            console.log('Error while closing page')
-        }
         try { await browser.close(); } catch (error) {
-            console.log('Error while closing browser')
+            console.log('Error while closing browser ' + error)
         }
     }
     async function postNavigationReset(){
@@ -79,18 +79,17 @@ async function start(){
             $('.box-confirm').off('click')
         })
     }
+    ( async () => {
+        while(!terminate) {
+            try {
+                await timer(3 * 1000)
+                console.log('Checking for error modal...')
+                terminate = await page_1.evaluate(() => $('#modal-errorBlock.in').get(0) != undefined)
+                if(terminate) console.log('Detected error modal, shutting down page')
+            } catch (error) {}
+        }
+    })()
     try {
-        ( async () => {
-            while(!terminate) {
-                try {
-                    await timer(3 * 1000)
-                    console.log('Checking for error modal...')
-                    terminate = await page_1.evaluate(() => $('#modal-errorBlock.in').get(0) != undefined)
-                    if(terminate) console.log('Detected error modal, shutting down page')
-                } catch (error) {}
-            }
-        })()
-    
         browser = await puppeteer.launch(puppeteerConfig).catch( error => {
             console.error('Could not launch browser');
             throw error;
@@ -107,22 +106,26 @@ async function start(){
     
         await page_1.setViewport(viewport),
         await page_1.goto(domain, navigationOptions),
+        await page_1.waitForSelector('select.form-control', waitForSelectorOptions),
         await page_1.select('select.form-control', 'INT'),
         await page_1.type('.form-horizontal .form-group:nth-of-type(2) input', USERNAME),
         await page_1.type('.form-horizontal .form-group:nth-of-type(3) input', PASSWORD),
         page_1.click('.form-horizontal .form-group:nth-of-type(4) button'),
-        await page_1.waitForNavigation(navigationOptions),
+        // await page_1.waitForNavigation(navigationOptions),
+        await page_1.waitForSelector('.pull-right a:nth-of-type(2)', waitForSelectorOptions),
         page_1.click('.pull-right a:nth-of-type(2)'),
         await page_1.waitForNavigation(navigationOptions)
     
         var pdfNamePath = './pdfs/LAVORO/pdf_'
+        await postNavigationReset()
+        await page_1.evaluate(() => $('.has-sub.open > a').click())
+        folders = await page_1.$$('.has-sub > a')
+        await folders[folderIndex].click()
     
         var endCycle_1 = false
         while(!endCycle_1 && !terminate){
             await postNavigationReset()
-            folders = await page_1.$$('.has-sub')
-            await folders[folderIndex].click()
-            slides = await page_1.$$('li.has-sub.open > ul > li > a')
+            var slides = await page_1.$$('li.has-sub.open > ul > li > a')
             await slides[slideIndex].click()
             await page_1.waitForNavigation(navigationOptions)
             
@@ -149,7 +152,7 @@ async function start(){
                         await timer(1000)
                         var labelTime = await frame.$eval('.label.time', elem => elem.textContent)
                         labelTime = getTime(labelTime)
-                        if(labelTime[1] - labelTime[0] <= 2) {
+                        if(labelTime[1] - labelTime[0] <= 4) {
                             console.log('Advancing time: ' + labelTime[0] + ' | ' + labelTime[1])
                             videoEnded = true
                         }
@@ -175,15 +178,15 @@ async function start(){
             progress.slideIndex++
             console.log('Progress: ', progress);
             fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4));
-            if(slideIndex > 10) endCycle_1 = true
+            if(slideIndex >= slides.length) endCycle_1 = true
         }
         console.log('Slides finished, closing browser');
         await stop()
     } catch (error) {
         console.log('Error occurred: ' + error)
         await stop()
-        console.log('Restarting in 10 seconds')
-        await timer(10 * 1000)
+        console.log('Restarting in 5 seconds')
+        await timer(5 * 1000)
         start()
     }
 }
