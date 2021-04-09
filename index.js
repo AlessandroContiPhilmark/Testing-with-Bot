@@ -64,9 +64,14 @@ function getTime(timeStr){
 
 
 async function start(){
+    var ID = Math.random() * 100
     var page_1
     var browser 
     var terminate = false
+    function isTerminated(){
+        if(terminate) throw 'Unexpected termination'
+        return false
+    }
     async function stop(){
         console.log('Stopping')
         terminate = true
@@ -83,7 +88,7 @@ async function start(){
         while(!terminate) {
             try {
                 await timer(3 * 1000)
-                console.log('Checking for error modal...')
+                console.log('Checking for error modal... ID: ' + ID)
                 terminate = await page_1.evaluate(() => $('#modal-errorBlock.in').get(0) != undefined)
                 if(terminate) console.log('Detected error modal, shutting down page')
             } catch (error) {}
@@ -123,7 +128,7 @@ async function start(){
         await folders[folderIndex].click()
     
         var endCycle_1 = false
-        while(!endCycle_1 && !terminate){
+        while(!isTerminated() && !endCycle_1){
             await postNavigationReset()
             var slides = await page_1.$$('li.has-sub.open > ul > li > a')
             await slides[slideIndex].click()
@@ -144,11 +149,11 @@ async function start(){
             }
             var counter = 0
             var endCycle_2 = false
-            while(!endCycle_2 && !terminate){
+            while(!isTerminated() && !endCycle_2){
                 var path = pdfNamePath + slideIndex + '_' + counter + '.png'
                 if (!fs.existsSync(path)){
                     var videoEnded = false
-                    while(!videoEnded && !terminate){
+                    while(!isTerminated() && !videoEnded){
                         await timer(1000)
                         var labelTime = await frame.$eval('.label.time', elem => elem.textContent)
                         labelTime = getTime(labelTime)
