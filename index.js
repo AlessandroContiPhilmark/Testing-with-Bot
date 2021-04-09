@@ -155,7 +155,8 @@ async function play(){
             await timer(randomTimer * 60  * 1000)
         }
     } catch (error) {
-        console.error(error)
+        console.log('Error occurred: ' + error)
+        await timer(1 * 1000)
         try { await browser.close(); } catch (error) {
             console.log('Error while closing browser ' + error)
         }
