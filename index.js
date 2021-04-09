@@ -17,6 +17,7 @@ const navigationOptions = {
 };
 const viewport = { width: 1366, height: 613, deviceScaleFactor: 1 };
 const puppeteerConfig = {
+    slowMo: 300,
     ignoreHTTPSErrors: true,
     product: 'chrome',
     headless,

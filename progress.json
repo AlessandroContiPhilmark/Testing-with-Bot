@@ -1,5 +1,5 @@
 {
-    "headless": true,
+    "headless": false,
     "overrideImages": false,
     "createImages": true,
     "folderIndex": 1,
