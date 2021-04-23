@@ -105,54 +105,71 @@ async function play(){
         slide = slide[slideIndex]
         var slideName = await slide.$$eval('td', elem => elem[1].textContent)
         await slide.click()
-        await page_1.waitForSelector('.ps-current ul li img')
-        var images = await page_1.evaluate(() => $('.ps-current ul li img').map(function(){
-            return $(this).attr('src')
-        }).toArray())
-    
-        var mainFolder = "./pdfs"
-        if (!fs.existsSync(mainFolder))
-            fs.mkdirSync(mainFolder);
-        var folderPath = mainFolder + "/" + slideName
-        if (!fs.existsSync(folderPath))
-            fs.mkdirSync(folderPath)
-        if(createImages){
-            var page_2 = await browser.newPage()
-            await page_2.setViewport(viewport)
-            await images.asyncForEach(async (imgUrl, index) => {
-                var path = folderPath + "/" + slideName + "_" + (++index) + ".png"
-                if(overrideImages || !fs.existsSync(path)){
-                    var url = domain + 'fad/' + imgUrl
-                    await page_2.goto(url, navigationOptions)
-                    console.log('Navigated to: ' + url)
-                    await page_2.screenshot({ path })
-                    console.log('Created: ' + path)
-                } else console.log('Already existing: ' + path)
-            })
-            await page_2.close()
-        }
-        await timer(3 * 1000)
-        var endCycle = false
-        while(!endCycle){
-            await page_1.waitForSelector('.minutes')
-            await page_1.waitForSelector('.seconds')
-            await page_1.waitForSelector('.pgwSlideshow .ps-caption b')
-            
-            var minutesText = await page_1.$eval('.minutes', elem => elem.textContent)
-            var secondsText = await page_1.$eval('.seconds', elem => elem.textContent)
-            var slideNumber = await page_1.$eval('.pgwSlideshow .ps-caption b', elem => elem.textContent)
-            slideNumber = slideNumber.substr( slideNumber.lastIndexOf('°') + 1 )
+        
+        await page_1.waitForSelector('#testPlayer')
+        var isInTestPage = await page_1.$eval('#testPlayer', elem => elem.style.display != 'none')
+        if(!isInTestPage) {
+            await page_1.waitForSelector('.ps-current ul li img')
+            var images = await page_1.evaluate(() => $('.ps-current ul li img').map(function(){
+                return $(this).attr('src')
+            }).toArray())
+        
+            var mainFolder = "./pdfs"
+            if (!fs.existsSync(mainFolder))
+                fs.mkdirSync(mainFolder);
+            var folderPath = mainFolder + "/" + slideName
+            if (!fs.existsSync(folderPath))
+                fs.mkdirSync(folderPath)
+            if(createImages){
+                var page_2 = await browser.newPage()
+                await page_2.setViewport(viewport)
+                await images.asyncForEach(async (imgUrl, index) => {
+                    var path = folderPath + "/" + slideName + "_" + (++index) + ".png"
+                    if(overrideImages || !fs.existsSync(path)){
+                        var url = domain + 'fad/' + imgUrl
+                        await page_2.goto(url, navigationOptions)
+                        console.log('Navigated to: ' + url)
+                        await page_2.screenshot({ path })
+                        console.log('Created: ' + path)
+                    } else console.log('Already existing: ' + path)
+                })
+                await page_2.close()
+            }
+            await timer(3 * 1000)
+            var endCycle = false
+            while(!endCycle){
+                await page_1.waitForSelector('.minutes')
+                await page_1.waitForSelector('.seconds')
+                await page_1.waitForSelector('.pgwSlideshow .ps-caption b')
+                
+                var minutesText = await page_1.$eval('.minutes', elem => elem.textContent)
+                var secondsText = await page_1.$eval('.seconds', elem => elem.textContent)
+                var slideNumber = await page_1.$eval('.pgwSlideshow .ps-caption b', elem => elem.textContent)
+                slideNumber = slideNumber.substr( slideNumber.lastIndexOf('°') + 1 )
 
-            var randomTimer = Math.random() * 2 + 1
-            var minutes = Math.floor(randomTimer)
-            var seconds = Math.round(randomTimer % 1 * 60)
-            console.log(
-                "Advancing: " + slideName + " " + slideNumber +
-                " | Time Remaining: " + minutesText + ":" + secondsText +
-                " | Random time wait: " + minutes + ":" + seconds
-            )
-            await page_1.$eval('.ps-next', elem => elem.click())
-            await timer(randomTimer * 60  * 1000)
+                var randomTimer = Math.random() * 2 + 1
+                var minutes = Math.floor(randomTimer)
+                var seconds = Math.round(randomTimer % 1 * 60)
+                console.log(
+                    "Advancing: " + slideName + " " + slideNumber +
+                    " | Time Remaining: " + minutesText + ":" + secondsText +
+                    " | Random time wait: " + minutes + ":" + seconds
+                )
+                await page_1.$eval('.ps-next', elem => elem.click())
+                await timer(randomTimer * 60  * 1000)
+            }
+        } else {
+            var testConcluso = false
+            while(!testConcluso){
+                var correctAnswerIndex = await page_1.$$eval('#divContainerAnswersTest tbody .yui-dt2-col-isCorretta',
+                    elems => elems.findIndex(elem => elem.innerText == 1)
+                )
+                var checkBoxes = await page_1.$$('#divContainerAnswersTest tbody input')
+                await checkBoxes[correctAnswerIndex].click()
+                await page_1.click('#idDivContainerButtonAnswersTest')
+                testConcluso = await page_1.$eval('#testPlayer', elem => elem.style.display == 'none')
+            }
+            console.log('Test concluso')
         }
     } catch (error) {
         console.log('Error occurred: ' + error)
