@@ -93,9 +93,9 @@ async function play(){
     
     
         //closes all open folders!
-        await page_1.evaluate(() => $('#ygtvc9 > .ygtvitem').find('.ygtvtm').click())
+        await page_1.evaluate(() => $('#ygtvc3 > .ygtvitem').find('.ygtvtm').click())
         //Open current folder
-        await page_1.evaluate(folderIndex => $('#ygtvc9 > .ygtvitem').find('.ygtvtp, .ygtvlp')
+        await page_1.evaluate(folderIndex => $('#ygtvc3 > .ygtvitem').find('.ygtvtp, .ygtvlp')
             .get(folderIndex).click()
         , folderIndex)
         await timer(2 * 1000)
