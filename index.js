@@ -38,7 +38,7 @@ const puppeteerConfig = {
 const USERNAME = 'Conti_Alessandro';
 const PASSWORD = 'Conti';
 
-const domain = 'https://ascen.piattaformafad.com/';
+const domain = 'https://fingeco4.piattaformafad.com/';
 
 var dialogPromise
 async function login(page_1){
