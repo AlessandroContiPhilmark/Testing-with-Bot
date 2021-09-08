@@ -101,7 +101,7 @@ async function play(){
         await timer(2 * 1000)
     
     
-        var slide = await page_1.$$('#ygtvc9 > .ygtvitem > .ygtvchildren > .ygtvitem .ygtvcontent')
+        var slide = await page_1.$$('#ygtvc3 > .ygtvitem > .ygtvchildren > .ygtvitem .ygtvcontent')
         slide = slide[slideIndex]
         var slideName = await slide.$$eval('td', elem => elem[1].textContent)
         await slide.click()
