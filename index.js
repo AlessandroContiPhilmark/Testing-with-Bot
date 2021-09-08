@@ -55,6 +55,48 @@ async function login(page_1){
     await page_1.evaluate(() => showPlayerCorso())
     await timer(3 * 1000)
 }
+
+
+
+
+async function getMainFrame(page_1){
+    await page_1.waitForSelector('#scormPlayer')
+    var iframe1 = await page_1.$('#scormPlayer')
+    iframe1 = await iframe1.contentFrame()
+    var iframe2 = (await iframe1.$$('frame'))[2]
+    iframe2 = await iframe2.contentFrame()
+    return iframe2
+}
+async function clickContinueSlide(page_1){
+    await page_1.mouse.click(700, 340, {button: 'left'})  
+}
+async function clickPlayPause(page_1){
+    await page_1.mouse.click(340, 550, {button: 'left'})  
+}
+async function clickNextSlide(page_1){
+    await page_1.mouse.click(1070, 540, {button: 'left'})
+}
+async function clickOk(page_1){
+    // This popup will appear when you use clickNextSlide while you haven't finished
+    await page_1.mouse.click(720, 340, {button: 'left'})
+}
+async function getProgress(page_1){
+    var iframe = await getMainFrame(page_1)
+    var slideProgress = await iframe.$$('.progressbar__label')
+
+    var numberSlide = slideProgress[0]
+    var numberTextObject = await numberSlide.getProperty('textContent')
+    var numberText = numberTextObject._remoteObject.value;
+    var number = numberText.replace(/\s/g, '').split('/').map(x => parseInt(x))
+
+    var timeSlide = slideProgress[1]
+    var timeTextObject = await timeSlide.getProperty('textContent')
+    var timeText = timeTextObject._remoteObject.value;
+    var time = timeText.replace(/\s/g, '').split('/').map(x => x.split(':').map(x => parseInt(x)))
+    return number, time
+}
+
+
 async function play(){
     var browser
     try {
