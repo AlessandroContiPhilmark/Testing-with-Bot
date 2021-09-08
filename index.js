@@ -133,6 +133,11 @@ async function play(){
         await login(page_1)
     
     
+        await page_1.evaluate(() => {
+            document.onmousemove = function(e) {
+                document.title = "X is " + e.pageX + " and Y is " + e.pageY
+            }
+        })
     
         //closes all open folders!
         await page_1.evaluate(() => $('#ygtvc3 > .ygtvitem').find('.ygtvtm').click())
