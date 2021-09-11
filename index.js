@@ -89,6 +89,9 @@ async function clickOk(page_1){
     // This popup will appear when you use clickNextSlide while you haven't finished
     await page_1.mouse.click(720, 340, {button: 'left'})
 }
+async function clickCloseSlide(page_1){
+    await page_1.mouse.click(135, 70, {button: 'left'})
+}
 async function getProgress(page_1){
     var iframe = await getMainFrame(page_1)
     var slideProgress = await iframe.$$('.progressbar__label')
@@ -102,7 +105,7 @@ async function getProgress(page_1){
     var timeTextObject = await timeSlide.getProperty('textContent')
     var timeText = timeTextObject._remoteObject.value;
     var time = timeText.replace(/\s/g, '').split('/').map(x => x.split(':').map(x => parseInt(x)))
-    return number, time
+    return {number, time}
 }
 
 
@@ -157,6 +160,9 @@ async function play(){
         await timer(2 * 1000)
     
     
+
+        var doCycleSlides = true
+        while(doCycleSlides) {
         var slide = await page_1.$$('#ygtvc3 > .ygtvitem > .ygtvchildren > .ygtvitem .ygtvcontent')
         slide = slide[slideIndex]
         var slideName = await slide.$$eval('td', elem => elem[1].textContent)
@@ -165,10 +171,12 @@ async function play(){
         await page_1.waitForSelector('#testPlayer')
         var isInTestPage = await page_1.$eval('#testPlayer', elem => elem.style.display != 'none')
         if(!isInTestPage) {
-            await page_1.waitForSelector('.ps-current ul li img')
-            var images = await page_1.evaluate(() => $('.ps-current ul li img').map(function(){
-                return $(this).attr('src')
-            }).toArray())
+                await timer(2 * 1000)
+    
+                // await page_1.waitForSelector('.ps-current ul li img')
+                // var images = await page_1.evaluate(() => $('.ps-current ul li img').map(function(){
+                //     return $(this).attr('src')
+                // }).toArray())
         
             var mainFolder = "./pdfs"
             if (!fs.existsSync(mainFolder))
@@ -177,42 +185,66 @@ async function play(){
             if (!fs.existsSync(folderPath))
                 fs.mkdirSync(folderPath)
             if(createImages){
-                var page_2 = await browser.newPage()
-                await page_2.setViewport(viewport)
-                await images.asyncForEach(async (imgUrl, index) => {
-                    var path = folderPath + "/" + slideName + "_" + (++index) + ".png"
-                    if(overrideImages || !fs.existsSync(path)){
-                        var url = domain + 'fad/' + imgUrl
-                        await page_2.goto(url, navigationOptions)
-                        console.log('Navigated to: ' + url)
-                        await page_2.screenshot({ path })
-                        console.log('Created: ' + path)
-                    } else console.log('Already existing: ' + path)
-                })
-                await page_2.close()
+                    // page_1.pdf()
+                    // var page_2 = await browser.newPage()
+                    // await page_2.setViewport(viewport)
+                    // await images.asyncForEach(async (imgUrl, index) => {
+                    //     var path = folderPath + "/" + slideName + "_" + (++index) + ".png"
+                    //     if(overrideImages || !fs.existsSync(path)){
+                    //         var url = domain + 'fad/' + imgUrl
+                    //         await page_2.goto(url, navigationOptions)
+                    //         console.log('Navigated to: ' + url)
+                    //         await page_2.screenshot({ path })
+                    //         console.log('Created: ' + path)
+                    //     } else console.log('Already existing: ' + path)
+                    // })
+                    // await page_2.close()
             }
             await timer(3 * 1000)
-            var endCycle = false
-            while(!endCycle){
-                await page_1.waitForSelector('.minutes')
-                await page_1.waitForSelector('.seconds')
-                await page_1.waitForSelector('.pgwSlideshow .ps-caption b')
-                
-                var minutesText = await page_1.$eval('.minutes', elem => elem.textContent)
-                var secondsText = await page_1.$eval('.seconds', elem => elem.textContent)
-                var slideNumber = await page_1.$eval('.pgwSlideshow .ps-caption b', elem => elem.textContent)
-                slideNumber = slideNumber.substr( slideNumber.lastIndexOf('°') + 1 )
+                /*
+                Codice da usare per visualizzare coordinate
+    
+                document.onmousemove = function(e){
+                    var x = e.pageX;
+                    var y = e.pageY;
+                    document.title = "X is "+x+" and Y is " + y;
+                }
+    
+                var iframe1 = document.querySelectorAll('#scormPlayer')[0].contentWindow.document
+                var iframe2 = iframe1.querySelectorAll('frame')[2].contentWindow.document
+                iframe2.onmousemove = function(e){
+                    var x = e.pageX;
+                    var y = e.pageY;
+                    document.title = "X is "+x+" and Y is " + y;
+                }
+                */
+               
 
-                var randomTimer = Math.random() * 2 + 1
-                var minutes = Math.floor(randomTimer)
-                var seconds = Math.round(randomTimer % 1 * 60)
-                console.log(
-                    "Advancing: " + slideName + " " + slideNumber +
-                    " | Time Remaining: " + minutesText + ":" + secondsText +
-                    " | Random time wait: " + minutes + ":" + seconds
-                )
-                await page_1.$eval('.ps-next', elem => elem.click())
-                await timer(randomTimer * 60  * 1000)
+                
+                await timer(3 * 1000)
+                await clickContinueSlide(page_1)
+
+                var doFiddle = true
+                while(doFiddle) {
+                    await timer(13 * 1000)
+                    await clickPause(page_1)
+                    await timer(0.3 * 1000)
+                    await clickPlay(page_1)
+
+                    var {number, time} = await getProgress(page_1)
+                    var isLastSlide = number[0] == number[1]
+                    var isTimeOver = time[0][0] == time[1][0] && time[0][1] == time[1][1]
+                
+                    console.log(number, time)
+
+                    if(isLastSlide && isTimeOver){
+                        await timer(1 * 1000)
+                        slideIndex++
+                        progress.slideIndex++
+                        fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4));
+                        doFiddle = false
+                        await clickCloseSlide(page_1)
+                    }
             }
         } else {
             var testConcluso = false
@@ -227,6 +259,9 @@ async function play(){
             }
             console.log('Test concluso')
         }
+        }
+
+
     } catch (error) {
         console.log('Error occurred: ' + error)
         await timer(1 * 1000)
