@@ -80,7 +80,7 @@ async function clickPause(page_1){
     var iframe = await getMainFrame(page_1)
     var status = await iframe.$eval('.universal-control-panel__button_play-pause', button => button.getAttribute('aria-label'))
     if(status == 'pause')
-    await page_1.mouse.click(340, 550, {button: 'left'})  
+        await page_1.mouse.click(340, 550, {button: 'left'})  
 }
 async function clickNextSlide(page_1){
     await page_1.mouse.click(1070, 540, {button: 'left'})
@@ -140,7 +140,7 @@ async function play(){
             })
         }
         page_1.on('dialog', dialog); 
-    
+
         await page_1.setViewport(viewport),
         await login(page_1)
     
@@ -159,32 +159,32 @@ async function play(){
         , folderIndex)
         await timer(2 * 1000)
     
-    
+
 
         var doCycleSlides = true
         while(doCycleSlides) {
-        var slide = await page_1.$$('#ygtvc3 > .ygtvitem > .ygtvchildren > .ygtvitem .ygtvcontent')
-        slide = slide[slideIndex]
-        var slideName = await slide.$$eval('td', elem => elem[1].textContent)
-        await slide.click()
-        
-        await page_1.waitForSelector('#testPlayer')
-        var isInTestPage = await page_1.$eval('#testPlayer', elem => elem.style.display != 'none')
-        if(!isInTestPage) {
+            var slide = await page_1.$$('#ygtvc3 > .ygtvitem > .ygtvchildren > .ygtvitem .ygtvcontent')
+            slide = slide[slideIndex]
+            var slideName = await slide.$$eval('td', elem => elem[1].textContent)
+            await slide.click()
+            
+            await page_1.waitForSelector('#testPlayer')
+            var isInTestPage = await page_1.$eval('#testPlayer', elem => elem.style.display != 'none')
+            if(!isInTestPage) {
                 await timer(2 * 1000)
     
                 // await page_1.waitForSelector('.ps-current ul li img')
                 // var images = await page_1.evaluate(() => $('.ps-current ul li img').map(function(){
                 //     return $(this).attr('src')
                 // }).toArray())
-        
-            var mainFolder = "./pdfs"
-            if (!fs.existsSync(mainFolder))
-                fs.mkdirSync(mainFolder);
-            var folderPath = mainFolder + "/" + slideName
-            if (!fs.existsSync(folderPath))
-                fs.mkdirSync(folderPath)
-            if(createImages){
+            
+                var mainFolder = "./pdfs"
+                if (!fs.existsSync(mainFolder))
+                    fs.mkdirSync(mainFolder);
+                var folderPath = mainFolder + "/" + slideName
+                if (!fs.existsSync(folderPath))
+                    fs.mkdirSync(folderPath)
+                if(createImages){
                     // page_1.pdf()
                     // var page_2 = await browser.newPage()
                     // await page_2.setViewport(viewport)
@@ -199,8 +199,8 @@ async function play(){
                     //     } else console.log('Already existing: ' + path)
                     // })
                     // await page_2.close()
-            }
-            await timer(3 * 1000)
+                }
+                await timer(3 * 1000)
                 /*
                 Codice da usare per visualizzare coordinate
     
@@ -234,7 +234,7 @@ async function play(){
                     var {number, time} = await getProgress(page_1)
                     var isLastSlide = number[0] == number[1]
                     var isTimeOver = time[0][0] == time[1][0] && time[0][1] == time[1][1]
-                
+
                     console.log(number, time)
 
                     if(isLastSlide && isTimeOver){
@@ -244,21 +244,26 @@ async function play(){
                         fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4));
                         doFiddle = false
                         await clickCloseSlide(page_1)
+                        try {
+                            await page_1.click('#yui-gen33-button')
+                        } catch (error) {
+                            console.log('no button to click after finishing slide')
+                        }
                     }
+                }
+            } else {
+                var testConcluso = false
+                while(!testConcluso){
+                    var correctAnswerIndex = await page_1.$$eval('#divContainerAnswersTest tbody .yui-dt2-col-isCorretta',
+                        elems => elems.findIndex(elem => elem.innerText == 1)
+                    )
+                    var checkBoxes = await page_1.$$('#divContainerAnswersTest tbody input')
+                    await checkBoxes[correctAnswerIndex].click()
+                    await page_1.click('#idDivContainerButtonAnswersTest')
+                    testConcluso = await page_1.$eval('#testPlayer', elem => elem.style.display == 'none')
+                }
+                console.log('Test concluso')
             }
-        } else {
-            var testConcluso = false
-            while(!testConcluso){
-                var correctAnswerIndex = await page_1.$$eval('#divContainerAnswersTest tbody .yui-dt2-col-isCorretta',
-                    elems => elems.findIndex(elem => elem.innerText == 1)
-                )
-                var checkBoxes = await page_1.$$('#divContainerAnswersTest tbody input')
-                await checkBoxes[correctAnswerIndex].click()
-                await page_1.click('#idDivContainerButtonAnswersTest')
-                testConcluso = await page_1.$eval('#testPlayer', elem => elem.style.display == 'none')
-            }
-            console.log('Test concluso')
-        }
         }
 
 
