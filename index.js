@@ -169,6 +169,7 @@ async function play(){
             await slide.click()
             
             await page_1.waitForSelector('#testPlayer')
+            await timer(2 * 1000)
             var isInTestPage = await page_1.$eval('#testPlayer', elem => elem.style.display != 'none')
             if(!isInTestPage) {
                 await timer(2 * 1000)
@@ -245,6 +246,7 @@ async function play(){
                         doFiddle = false
                         await clickCloseSlide(page_1)
                         try {
+                            await timer(7 * 1000)
                             await page_1.click('#yui-gen33-button')
                         } catch (error) {
                             console.log('no button to click after finishing slide')
@@ -254,12 +256,14 @@ async function play(){
             } else {
                 var testConcluso = false
                 while(!testConcluso){
+                    await timer(1 * 1000)
                     var correctAnswerIndex = await page_1.$$eval('#divContainerAnswersTest tbody .yui-dt2-col-isCorretta',
                         elems => elems.findIndex(elem => elem.innerText == 1)
                     )
                     var checkBoxes = await page_1.$$('#divContainerAnswersTest tbody input')
                     await checkBoxes[correctAnswerIndex].click()
-                    await page_1.click('#idDivContainerButtonAnswersTest')
+                    await page_1.click('#idDivContainerButtonAnswersTest-button')
+                    await timer(1 * 1000)
                     testConcluso = await page_1.$eval('#testPlayer', elem => elem.style.display == 'none')
                 }
                 console.log('Test concluso')
