@@ -109,6 +109,39 @@ async function getProgress(page_1){
 }
 
 
+async function fiddleWithSlide(page_1){
+    var doFiddle = true
+    while(doFiddle) {
+        await timer(13 * 1000)
+        await clickPause(page_1)
+        await timer(0.3 * 1000)
+        await clickPlay(page_1)
+
+        var {number, time} = await getProgress(page_1)
+        var isLastSlide = number[0] == number[1]
+        var isTimeOver = time[0][0] == time[1][0] && time[0][1] == time[1][1]
+
+        console.log(number, time)
+
+        if(isLastSlide && isTimeOver){
+            await timer(1 * 1000)
+            slideIndex++
+            progress.slideIndex++
+            fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4));
+            doFiddle = false
+            await clickCloseSlide(page_1)
+            try {
+                await timer(7 * 1000)
+                await page_1.click('#yui-gen33-button')
+            } catch (error) {
+                console.log('no button to click after finishing slide')
+            }
+        }
+    }
+}
+
+
+
 async function play(){
     var browser
     try {
@@ -225,34 +258,9 @@ async function play(){
                 await timer(3 * 1000)
                 await clickContinueSlide(page_1)
 
-                var doFiddle = true
-                while(doFiddle) {
-                    await timer(13 * 1000)
-                    await clickPause(page_1)
-                    await timer(0.3 * 1000)
-                    await clickPlay(page_1)
+                await fiddleWithSlide(page_1)
 
-                    var {number, time} = await getProgress(page_1)
-                    var isLastSlide = number[0] == number[1]
-                    var isTimeOver = time[0][0] == time[1][0] && time[0][1] == time[1][1]
-
-                    console.log(number, time)
-
-                    if(isLastSlide && isTimeOver){
-                        await timer(1 * 1000)
-                        slideIndex++
-                        progress.slideIndex++
-                        fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4));
-                        doFiddle = false
-                        await clickCloseSlide(page_1)
-                        try {
-                            await timer(7 * 1000)
-                            await page_1.click('#yui-gen33-button')
-                        } catch (error) {
-                            console.log('no button to click after finishing slide')
-                        }
-                    }
-                }
+                
             } else {
                 var testConcluso = false
                 while(!testConcluso){
