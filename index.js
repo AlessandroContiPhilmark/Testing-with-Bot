@@ -1,5 +1,7 @@
 require('./asyncForEach').asyncCallback = true;
 const fs = require('fs');
+const { get } = require('http');
+
 
 var progress = {
     slideIndex, createImages,
@@ -17,7 +19,7 @@ const navigationOptions = {
 };
 const viewport = { width: 1366, height: 613, deviceScaleFactor: 1 };
 const puppeteerConfig = {
-    slowMo: 100,
+    // slowMo: 100,
     ignoreHTTPSErrors: true,
     product: 'chrome',
     headless,
@@ -124,11 +126,8 @@ async function fiddleWithSlide(page_1){
         console.log(number, time)
 
         if(isLastSlide && isTimeOver){
-            await timer(1 * 1000)
-            slideIndex++
-            progress.slideIndex++
-            fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4));
             doFiddle = false
+            await timer(1 * 1000)
             await clickCloseSlide(page_1)
             try {
                 await timer(7 * 1000)
@@ -139,6 +138,21 @@ async function fiddleWithSlide(page_1){
         }
     }
 }
+
+
+async function openFolder(page_1, index){
+    //closes all open folders!
+    await page_1.evaluate(() => $('#ygtvc3 > .ygtvitem').find('.ygtvtm').click())
+    //Gets How many folders there are
+    var numberOfFolders = await page_1.evaluate(() => $('#ygtvc3 > .ygtvitem').find('.ygtvtp, .ygtvlp').length)
+    //Open current folder
+    var folder = await page_1.evaluateHandle(index => $('#ygtvc3 > .ygtvitem').find('.ygtvtp, .ygtvlp').get(index), index)
+    await folder.click()
+    return numberOfFolders
+}
+
+
+
 
 
 
@@ -184,107 +198,128 @@ async function play(){
             }
         })
     
-        //closes all open folders!
-        await page_1.evaluate(() => $('#ygtvc3 > .ygtvitem').find('.ygtvtm').click())
-        //Open current folder
-        await page_1.evaluate(folderIndex => $('#ygtvc3 > .ygtvitem').find('.ygtvtp, .ygtvlp')
-            .get(folderIndex).click()
-        , folderIndex)
-        await timer(2 * 1000)
-    
-
-
-        var doCycleSlides = true
-        while(doCycleSlides) {
-            var slide = await page_1.$$('#ygtvc3 > .ygtvitem > .ygtvchildren > .ygtvitem .ygtvcontent')
-            slide = slide[slideIndex]
-            var slideName = await slide.$$eval('td', elem => elem[1].textContent)
-            await slide.click()
-            
-            await page_1.waitForSelector('#testPlayer')
+        var doneAllFolders = false
+        while(!doneAllFolders){
+            var numberOfFolders = await openFolder(page_1, folderIndex)
             await timer(2 * 1000)
-            var isInTestPage = await page_1.$eval('#testPlayer', elem => elem.style.display != 'none')
-            if(!isInTestPage) {
-                await timer(2 * 1000)
-    
-                // await page_1.waitForSelector('.ps-current ul li img')
-                // var images = await page_1.evaluate(() => $('.ps-current ul li img').map(function(){
-                //     return $(this).attr('src')
-                // }).toArray())
+
+
             
-                var mainFolder = "./pdfs"
-                if (!fs.existsSync(mainFolder))
-                    fs.mkdirSync(mainFolder);
-                var folderPath = mainFolder + "/" + slideName
-                if (!fs.existsSync(folderPath))
-                    fs.mkdirSync(folderPath)
-                if(createImages){
-                    // page_1.pdf()
-                    // var page_2 = await browser.newPage()
-                    // await page_2.setViewport(viewport)
-                    // await images.asyncForEach(async (imgUrl, index) => {
-                    //     var path = folderPath + "/" + slideName + "_" + (++index) + ".png"
-                    //     if(overrideImages || !fs.existsSync(path)){
-                    //         var url = domain + 'fad/' + imgUrl
-                    //         await page_2.goto(url, navigationOptions)
-                    //         console.log('Navigated to: ' + url)
-                    //         await page_2.screenshot({ path })
-                    //         console.log('Created: ' + path)
-                    //     } else console.log('Already existing: ' + path)
-                    // })
-                    // await page_2.close()
-                }
-                await timer(3 * 1000)
-                /*
-                Codice da usare per visualizzare coordinate
-    
-                document.onmousemove = function(e){
-                    var x = e.pageX;
-                    var y = e.pageY;
-                    document.title = "X is "+x+" and Y is " + y;
-                }
-    
-                var iframe1 = document.querySelectorAll('#scormPlayer')[0].contentWindow.document
-                var iframe2 = iframe1.querySelectorAll('frame')[2].contentWindow.document
-                iframe2.onmousemove = function(e){
-                    var x = e.pageX;
-                    var y = e.pageY;
-                    document.title = "X is "+x+" and Y is " + y;
-                }
-                */
-               
-
+            var doCycleSlides = true
+            while(doCycleSlides) {
+                var slides = await page_1.$$('#ygtvc3 > .ygtvitem > .ygtvchildren > .ygtvitem .ygtvcontent')
+                slide = slides[slideIndex]
+                var slideName = await slide.$$eval('td', elem => elem[1].textContent)
+                await slide.click()
                 
-                await timer(3 * 1000)
-                await clickContinueSlide(page_1)
-
-                await fiddleWithSlide(page_1)
-
+                await page_1.waitForSelector('#testPlayer')
+                await timer(2 * 1000)
+                var isInTestPage = await page_1.$eval('#testPlayer', elem => elem.style.display != 'none')
+                var isInSlideFrame = await page_1.$eval('#scormPlayer', elem => elem.style.display != 'none')
+                if(isInSlideFrame) {
+                    // await timer(2 * 1000)
+        
+                    // await page_1.waitForSelector('.ps-current ul li img')
+                    // var images = await page_1.evaluate(() => $('.ps-current ul li img').map(function(){
+                    //     return $(this).attr('src')
+                    // }).toArray())
                 
-            } else {
-                var testConcluso = false
-                while(!testConcluso){
-                    await timer(1 * 1000)
-                    var correctAnswerIndex = await page_1.$$eval('#divContainerAnswersTest tbody .yui-dt2-col-isCorretta',
-                        elems => elems.findIndex(elem => elem.innerText == 1)
-                    )
-                    var checkBoxes = await page_1.$$('#divContainerAnswersTest tbody input')
-                    await checkBoxes[correctAnswerIndex].click()
-                    await page_1.click('#idDivContainerButtonAnswersTest-button')
-                    await timer(1 * 1000)
-                    testConcluso = await page_1.$eval('#testPlayer', elem => elem.style.display == 'none')
+                    var mainFolder = "./pdfs"
+                    if (!fs.existsSync(mainFolder))
+                        fs.mkdirSync(mainFolder);
+                    var folderPath = mainFolder + "/" + slideName
+                    if (!fs.existsSync(folderPath))
+                        fs.mkdirSync(folderPath)
+                    if(createImages){
+                        // page_1.pdf()
+                        // var page_2 = await browser.newPage()
+                        // await page_2.setViewport(viewport)
+                        // await images.asyncForEach(async (imgUrl, index) => {
+                        //     var path = folderPath + "/" + slideName + "_" + (++index) + ".png"
+                        //     if(overrideImages || !fs.existsSync(path)){
+                        //         var url = domain + 'fad/' + imgUrl
+                        //         await page_2.goto(url, navigationOptions)
+                        //         console.log('Navigated to: ' + url)
+                        //         await page_2.screenshot({ path })
+                        //         console.log('Created: ' + path)
+                        //     } else console.log('Already existing: ' + path)
+                        // })
+                        // await page_2.close()
+                    }
+                    // await timer(3 * 1000)
+                    /*
+                    Codice da usare per visualizzare coordinate
+        
+                    document.onmousemove = function(e){
+                        var x = e.pageX;
+                        var y = e.pageY;
+                        document.title = "X is "+x+" and Y is " + y;
+                    }
+        
+                    var iframe1 = document.querySelectorAll('#scormPlayer')[0].contentWindow.document
+                    var iframe2 = iframe1.querySelectorAll('frame')[2].contentWindow.document
+                    iframe2.onmousemove = function(e){
+                        var x = e.pageX;
+                        var y = e.pageY;
+                        document.title = "X is "+x+" and Y is " + y;
+                    }
+                    */
+                
+
+                    
+                    await timer(3 * 1000)
+                    await clickContinueSlide(page_1)
+
+                    await fiddleWithSlide(page_1)
+
+                    
                 }
-                console.log('Test concluso')
+                if(isInTestPage) {
+                    var testConcluso = false
+                    while(!testConcluso){
+                        await timer(1 * 1000)
+                        var correctAnswerIndex = await page_1.$$eval('#divContainerAnswersTest tbody .yui-dt2-col-isCorretta',
+                            elems => elems.findIndex(elem => elem.innerText == 1)
+                        )
+                        var checkBoxes = await page_1.$$('#divContainerAnswersTest tbody input')
+                        await checkBoxes[correctAnswerIndex].click()
+                        await page_1.click('#idDivContainerButtonAnswersTest-button')
+                        await timer(1 * 1000)
+                        testConcluso = await page_1.$eval('#testPlayer', elem => elem.style.display == 'none')
+                    }
+                    console.log('Test concluso')
+                }
+                
+                slideIndex++
+                progress.slideIndex++
+                fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4));
+                
+
+
+                if(slideIndex >= slides.length){
+                    doCycleSlides = false
+                    folderIndex++
+                    progress.folderIndex++
+                    fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4));
+                }
+
+
             }
-        }
-
-
+            if(folderIndex >= numberOfFolders){
+                doneAllFolders = true
+                progress.slideIndex = 0
+                progress.folderIndex = 0
+                progress.corsoConcluded = true
+                fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4));
+            }
+        }        
+        console.log('Il corso è stato terminato')
     } catch (error) {
         console.log('Error occurred: ' + error)
         await timer(1 * 1000)
         try { await browser.close(); } catch (error) {
             console.log('Error while closing browser ' + error)
-        }
+        }   
         console.log('Restarting in 5 seconds')
         await timer(5 * 1000)
         play()
