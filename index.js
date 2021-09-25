@@ -202,8 +202,6 @@ async function play(){
         while(!doneAllFolders){
             var numberOfFolders = await openFolder(page_1, folderIndex)
             await timer(2 * 1000)
-
-
             
             var doCycleSlides = true
             while(doCycleSlides) {
@@ -264,15 +262,9 @@ async function play(){
                         document.title = "X is "+x+" and Y is " + y;
                     }
                     */
-                
-
-                    
                     await timer(3 * 1000)
                     await clickContinueSlide(page_1)
-
                     await fiddleWithSlide(page_1)
-
-                    
                 }
                 if(isInTestPage) {
                     var testConcluso = false
@@ -289,31 +281,24 @@ async function play(){
                     }
                     console.log('Test concluso')
                 }
-                
                 slideIndex++
                 progress.slideIndex++
-                fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4));
-                
-
-
                 if(slideIndex >= slides.length){
                     doCycleSlides = false
                     folderIndex++
                     progress.folderIndex++
-                    fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4));
                 }
-
-
+                fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4))
             }
             if(folderIndex >= numberOfFolders){
                 doneAllFolders = true
                 progress.slideIndex = 0
                 progress.folderIndex = 0
                 progress.corsoConcluded = true
-                fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4));
+                fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4))
+                console.log('Il corso è stato terminato')
             }
         }        
-        console.log('Il corso è stato terminato')
     } catch (error) {
         console.log('Error occurred: ' + error)
         await timer(1 * 1000)
