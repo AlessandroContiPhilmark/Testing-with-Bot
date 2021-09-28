@@ -152,6 +152,32 @@ async function openFolder(page_1, index){
 }
 
 
+async function getSlides(page_1, folderIndex){
+    var wholeFolders = await page_1.$$('#ygtvc3 > .ygtvitem')
+    var currentWholeFolder = wholeFolders[folderIndex]
+
+    var slides = await currentWholeFolder.$$('#ygtvc3 > .ygtvitem > .ygtvchildren > .ygtvitem .ygtvcontent')
+
+
+    // slides.forEach(async slide => {
+    //     var txt = await slide.evaluate((el) => {
+    //         var txt = el.textContent
+    //         var inerTxt = el.innerText
+    //         el.style.backgroundColor = 'red'
+    //         el.style.fontSize = 150 + 'px'
+    //         return txt + ' | ' + inerTxt 
+    //     })
+    //     var t = 0
+    // })
+
+    // var slides = await page_1.evaluateHandle(
+    //     currentWholeFolder => $(currentWholeFolder).find('.ygtvchildren > .ygtvitem .ygtvcontent'),
+    //     currentWholeFolder
+    // )
+    return slides
+}
+
+
 
 
 
@@ -205,7 +231,11 @@ async function play(){
             
             var doCycleSlides = true
             while(doCycleSlides) {
-                var slides = await page_1.$$('#ygtvc3 > .ygtvitem > .ygtvchildren > .ygtvitem .ygtvcontent')
+
+                var slides = await getSlides(page_1, folderIndex)
+
+
+                // var slides = await page_1.$$('#ygtvc3 > .ygtvitem > .ygtvchildren > .ygtvitem .ygtvcontent')
                 slide = slides[slideIndex]
                 var slideName = await slide.$$eval('td', elem => elem[1].textContent)
                 await slide.click()
@@ -285,6 +315,8 @@ async function play(){
                 slideIndex++
                 progress.slideIndex++
                 if(slideIndex >= slides.length){
+                    slideIndex = 0
+                    progress.slideIndex = 0
                     doCycleSlides = false
                     folderIndex++
                     progress.folderIndex++
