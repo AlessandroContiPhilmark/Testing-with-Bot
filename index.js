@@ -214,6 +214,7 @@ async function play(){
                 await timer(2 * 1000)
                 var isInTestPage = await page_1.$eval('#testPlayer', elem => elem.style.display != 'none')
                 var isInSlideFrame = await page_1.$eval('#scormPlayer', elem => elem.style.display != 'none')
+                // var isBlockedOnTest = await page_1.evaluate(() => $('#divImageEsitoRisultatoTest').get(0) != undefined)
                 if(isInSlideFrame) {
                     // await timer(2 * 1000)
         
