@@ -77,12 +77,18 @@ async function clickPlay(page_1){
     var status = await iframe.$eval('.universal-control-panel__button_play-pause', button => button.getAttribute('aria-label'))
     if(status == 'play')
         await page_1.mouse.click(340, 550, {button: 'left'}) 
+    status = await iframe.$eval('.universal-control-panel__button_play-pause', button => button.getAttribute('aria-label'))
+    if(status == 'play')
+        await page_1.mouse.click(550, 550, {button: 'left'}) 
 }
 async function clickPause(page_1){
     var iframe = await getMainFrame(page_1)
     var status = await iframe.$eval('.universal-control-panel__button_play-pause', button => button.getAttribute('aria-label'))
     if(status == 'pause')
         await page_1.mouse.click(340, 550, {button: 'left'})  
+    status = await iframe.$eval('.universal-control-panel__button_play-pause', button => button.getAttribute('aria-label'))
+    if(status == 'pause')
+        await page_1.mouse.click(550, 550, {button: 'left'}) 
 }
 async function clickNextSlide(page_1){
     await page_1.mouse.click(1070, 540, {button: 'left'})
