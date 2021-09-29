@@ -4,9 +4,6 @@ Installa Node.js e npm sul pc
 
 Apri prompt su questa cartella e scrivi: npm install
 
-Dentro index.js vai a scrivere:
-	il path per chrome.exe
-	il tuo username e password di Fingeco
 
 Dentro config.json metti le tue credenziali e il path di Chrome sul tuo pc (es il mio è "C:/Program Files (x86)/Google/Chrome/Application/chrome.exe")
 
