@@ -10,6 +10,8 @@ var progress = {
 } = JSON.parse(fs.readFileSync('./progress.json'));
 console.log('Progress: ', progress);
 
+var {username, password, chromePath} = JSON.parse(fs.readFileSync('./config.json'))
+
 const puppeteer = require('puppeteer');
 const timer = ms => new Promise(res => setTimeout(res, ms));
 
@@ -34,19 +36,17 @@ const puppeteerConfig = {
         // '--disable-app-list-dismiss-on-blur',
     ],
     // executablePath: './node_modules/chromium/lib/chromium/chrome-win/chrome.exe'
-    executablePath: 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe'
+    executablePath: chromePath
 };
 
-const USERNAME = 'Conti_Alessandro';
-const PASSWORD = 'Conti';
 
 const domain = 'https://fingeco4.piattaformafad.com/';
 
 var dialogPromise
 async function login(page_1){
     await page_1.goto(domain, navigationOptions),
-    await page_1.type('#sicuruser', USERNAME),
-    await page_1.type('#sicurpass', PASSWORD),
+    await page_1.type('#sicuruser', username),
+    await page_1.type('#sicurpass', password),
     page_1.click('button.sicurweb-login-submit'),
     await page_1.waitForNavigation(navigationOptions),
     await dialogPromise,
@@ -207,8 +207,8 @@ async function play(){
                 console.log("Dialog message: " + dialog.message())
                 if(dialog.message() === "Account in uso. Disconnettere l'altro utente?"){
                     await dialog.accept()
-                    await page_1.type('#sicuruser', USERNAME)
-                    await page_1.type('#sicurpass', PASSWORD)
+                    await page_1.type('#sicuruser', username)
+                    await page_1.type('#sicurpass', password)
                     page_1.click('button.sicurweb-login-submit')
                     await page_1.waitForNavigation(navigationOptions)
                 }
