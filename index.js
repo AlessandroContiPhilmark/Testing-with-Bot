@@ -59,16 +59,33 @@ async function login(page_1){
 }
 
 
-
-
-async function getMainFrame(page_1){
+async function getMainFrameHandle(page_1){
     await page_1.waitForSelector('#scormPlayer')
-    var iframe1 = await page_1.$('#scormPlayer')
-    iframe1 = await iframe1.contentFrame()
-    var iframe2 = (await iframe1.$$('frame'))[2]
-    iframe2 = await iframe2.contentFrame()
-    return iframe2
+    var mainFrame = await page_1.$('#scormPlayer')
+    return mainFrame
 }
+async function getMainFrame(page_1){
+    var mainFrame = await getMainFrameHandle(page_1)
+    mainFrame = await mainFrame.contentFrame()
+    return mainFrame
+}
+async function getInnerFrameHandle(page_1){
+    var mainFrame = await getMainFrame(page_1)
+    var innerFrame = (await mainFrame.$$('frame'))[2]
+    return innerFrame
+}
+
+async function getInnerFrame(page_1){
+    var innerFrame = await getInnerFrameHandle(page_1)
+    innerFrame = await innerFrame.contentFrame()
+    return innerFrame
+}
+async function getPlayPauseButton(page_1){
+    var innerFrame = await getInnerFrame(page_1)
+    var button = await innerFrame.$('.universal-control-panel__button_play-pause')
+    return button
+}
+
 async function clickContinueSlide(page_1){
     await page_1.mouse.click(700, 340, {button: 'left'})  
 }
