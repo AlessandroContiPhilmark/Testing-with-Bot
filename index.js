@@ -90,22 +90,61 @@ async function clickContinueSlide(page_1){
     await page_1.mouse.click(700, 340, {button: 'left'})  
 }
 async function clickPlay(page_1){
-    var iframe = await getMainFrame(page_1)
-    var status = await iframe.$eval('.universal-control-panel__button_play-pause', button => button.getAttribute('aria-label'))
+    // var mainFrame = document.querySelector('#scormPlayer')
+    // var innerFrame = mainFrame.contentDocument.querySelectorAll('frame')[2]
+    // var button = innerFrame.contentDocument.querySelector('.universal-control-panel__button_play-pause')
+
+    // var buttonX = mainFrame.getBoundingClientRect().x
+    // + innerFrame.getBoundingClientRect().x
+    // + button.getBoundingClientRect().x
+    // + (button.getBoundingClientRect().width / 2)
+
+    // var buttonY = mainFrame.getBoundingClientRect().y
+    // + innerFrame.getBoundingClientRect().y
+    // + button.getBoundingClientRect().y
+    // + (button.getBoundingClientRect().height / 2)
+
+    var mainFrame = await getMainFrameHandle(page_1)
+    var innerFrame = await getInnerFrameHandle(page_1)
+    var button = await getPlayPauseButton(page_1)
+
+    var buttonX =
+        await mainFrame.evaluate(elem => elem.getBoundingClientRect().x) +
+        await innerFrame.evaluate(elem => elem.getBoundingClientRect().x) +
+        await button.evaluate(elem => elem.getBoundingClientRect().x) +
+        await button.evaluate(elem => elem.getBoundingClientRect().width / 2)
+    var buttonY =
+        await mainFrame.evaluate(elem => elem.getBoundingClientRect().y) +
+        await innerFrame.evaluate(elem => elem.getBoundingClientRect().y) +
+        await button.evaluate(elem => elem.getBoundingClientRect().y) +
+        await button.evaluate(elem => elem.getBoundingClientRect().height / 2)
+
+    // var iframe = await getInnerFrame(page_1)
+    // var status = await iframe.$eval('.universal-control-panel__button_play-pause', button => button.getAttribute('aria-label'))
+    var status = await button.evaluate(elem => elem.getAttribute('aria-label'))
     if(status == 'play')
-        await page_1.mouse.click(340, 550, {button: 'left'}) 
-    status = await iframe.$eval('.universal-control-panel__button_play-pause', button => button.getAttribute('aria-label'))
-    if(status == 'play')
-        await page_1.mouse.click(550, 550, {button: 'left'}) 
+        await page_1.mouse.click(buttonX, buttonY, {button: 'left'}) 
+    // status = await iframe.$eval('.universal-control-panel__button_play-pause', button => button.getAttribute('aria-label'))
+    // if(status == 'play')
+    //     await page_1.mouse.click(550, 530, {button: 'left'}) 
 }
 async function clickPause(page_1){
-    var iframe = await getMainFrame(page_1)
-    var status = await iframe.$eval('.universal-control-panel__button_play-pause', button => button.getAttribute('aria-label'))
+    var mainFrame = await getMainFrameHandle(page_1)
+    var innerFrame = await getInnerFrameHandle(page_1)
+    var button = await getPlayPauseButton(page_1)
+    var buttonX =
+        await mainFrame.evaluate(elem => elem.getBoundingClientRect().x) +
+        await innerFrame.evaluate(elem => elem.getBoundingClientRect().x) +
+        await button.evaluate(elem => elem.getBoundingClientRect().x) +
+        await button.evaluate(elem => elem.getBoundingClientRect().width / 2)
+    var buttonY =
+        await mainFrame.evaluate(elem => elem.getBoundingClientRect().y) +
+        await innerFrame.evaluate(elem => elem.getBoundingClientRect().y) +
+        await button.evaluate(elem => elem.getBoundingClientRect().y) +
+        await button.evaluate(elem => elem.getBoundingClientRect().height / 2)
+    var status = await button.evaluate(elem => elem.getAttribute('aria-label'))
     if(status == 'pause')
-        await page_1.mouse.click(340, 550, {button: 'left'})  
-    status = await iframe.$eval('.universal-control-panel__button_play-pause', button => button.getAttribute('aria-label'))
-    if(status == 'pause')
-        await page_1.mouse.click(550, 550, {button: 'left'}) 
+        await page_1.mouse.click(buttonX, buttonY, {button: 'left'})
 }
 async function clickNextSlide(page_1){
     await page_1.mouse.click(1070, 540, {button: 'left'})
@@ -118,7 +157,7 @@ async function clickCloseSlide(page_1){
     await page_1.mouse.click(135, 70, {button: 'left'})
 }
 async function getProgress(page_1){
-    var iframe = await getMainFrame(page_1)
+    var iframe = await getInnerFrame(page_1)
     var slideProgress = await iframe.$$('.progressbar__label')
 
     var numberSlide = slideProgress[0]
