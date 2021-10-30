@@ -63,8 +63,8 @@ async function login(page_1){
 
 
 async function getMainFrameHandle(page_1){
-    await page_1.waitForSelector('#scormPlayer')
-    var mainFrame = await page_1.$('#scormPlayer')
+    await page_1.waitForSelector('#elearning-player-dialog')
+    var mainFrame = await page_1.$('#elearning-player-dialog iframe')
     return mainFrame
 }
 async function getMainFrame(page_1){
@@ -207,21 +207,24 @@ async function fiddleWithSlide(page_1){
 
 async function openFolder(page_1, index){
     //closes all open folders!
-    await page_1.evaluate(() => $('#ygtvc3 > .ygtvitem').find('.ygtvtm').click())
+    await page_1.evaluate(() => $('#elearning-corso-lezioni > div > ul > li').filter(function(){return $(this).attr("aria-expanded") == 'true'}).click())
+    await timer(0.5 * 1000)
     //Gets How many folders there are
-    var numberOfFolders = await page_1.evaluate(() => $('#ygtvc3 > .ygtvitem').find('.ygtvtp, .ygtvlp').length)
+    var numberOfFolders = await page_1.evaluate(() => $('#elearning-corso-lezioni > div > ul > li').length)
     //Open current folder
-    var folder = await page_1.evaluateHandle(index => $('#ygtvc3 > .ygtvitem').find('.ygtvtp, .ygtvlp').get(index), index)
+    var folder = await page_1.evaluateHandle(index => $('#elearning-corso-lezioni > div > ul > li').get(index), index)
+    await folder.evaluate(e => e.scrollIntoView({ block: "center", inline: "center" }))
+    await timer(2 * 1000)
     await folder.click()
     return numberOfFolders
 }
 
 
 async function getSlides(page_1, folderIndex){
-    var wholeFolders = await page_1.$$('#ygtvc3 > .ygtvitem')
+    var wholeFolders = await page_1.$$('#elearning-corso-lezioni > div > ul > li')
     var currentWholeFolder = wholeFolders[folderIndex]
 
-    var slides = await currentWholeFolder.$$('#ygtvc3 > .ygtvitem > .ygtvchildren > .ygtvitem .ygtvcontent')
+    var slides = await currentWholeFolder.$$('#elearning-corso-lezioni > div > ul > li > ul > li')
 
 
     // slides.forEach(async slide => {
@@ -282,6 +285,7 @@ async function play(){
         await page_1.setViewport(viewport),
         await login(page_1)
     
+        // await page_1.addStyleTag({ content: "{scroll-behavior: auto !important;}" });
     
         await page_1.evaluate(() => {
             document.onmousemove = function(e) {
@@ -302,14 +306,18 @@ async function play(){
 
                 // var slides = await page_1.$$('#ygtvc3 > .ygtvitem > .ygtvchildren > .ygtvitem .ygtvcontent')
                 slide = slides[slideIndex]
-                var slideName = await slide.$$eval('td', elem => elem[1].textContent)
+                var slideName = await slide.$$eval('.fancytree-title', elem => elem[0].textContent)
+                await slide.evaluate(e => e.scrollIntoView({ block: "center", inline: "center" }))
+                await timer(2 * 1000)
                 await slide.click()
                 
-                await page_1.waitForSelector('#testPlayer')
+                // await page_1.waitForSelector('#testPlayer')
                 await timer(2 * 1000)
-                var isInTestPage = await page_1.$eval('#testPlayer', elem => elem.style.display != 'none')
-                var isInSlideFrame = await page_1.$eval('#scormPlayer', elem => elem.style.display != 'none')
+                // var isInTestPage = await page_1.$eval('#testPlayer', elem => elem.style.display != 'none')
+                var isInSlideFrame = await page_1.$eval('#elearning-player-dialog', elem => elem.style.display != 'none')
                 // var isBlockedOnTest = await page_1.evaluate(() => $('#divImageEsitoRisultatoTest').get(0) != undefined)
+               
+                //TODO continua da qui
                 if(isInSlideFrame) {
                     // await timer(2 * 1000)
         
