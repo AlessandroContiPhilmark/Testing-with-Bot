@@ -49,12 +49,15 @@ async function login(page_1){
     await page_1.type('#sicurpass', password),
     page_1.click('button.sicurweb-login-submit'),
     await page_1.waitForNavigation(navigationOptions),
-    await dialogPromise,
-    await page_1.evaluate(() => showCorsiFad(true))
+    await dialogPromise
+    // await page_1.evaluate(() => showCorsiFad(true))
     await timer(3 * 1000)
-    await page_1.evaluate(() => openCorsoTable("yui-rec0"))
+    var courseButtons = await page_1.$$('button.action-openCorso')
+    await courseButtons[0].click()
+    // await page_1.evaluate(() => openCorsoTable("yui-rec0"))
     await timer(3 * 1000)
-    await page_1.evaluate(() => showPlayerCorso())
+    // await page_1.evaluate(() => showPlayerCorso())
+    await page_1.click('#elearning-corso-lezioni-header > button')
     await timer(3 * 1000)
 }
 
