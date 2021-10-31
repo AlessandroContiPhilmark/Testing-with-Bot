@@ -157,7 +157,7 @@ async function clickOk(page_1){
     await page_1.mouse.click(720, 340, {button: 'left'})
 }
 async function clickCloseSlide(page_1){
-    await page_1.mouse.click(135, 70, {button: 'left'})
+    await page_1.mouse.click(1300, 6, {button: 'left'})
 }
 async function getProgress(page_1){
     var iframe = await getInnerFrame(page_1)
