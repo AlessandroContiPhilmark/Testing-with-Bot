@@ -179,14 +179,19 @@ async function getProgress(page_1){
 async function fiddleWithSlide(page_1){
     var doFiddle = true
     while(doFiddle) {
+        var {number, time} = await getProgress(page_1)
+        var isLastSlide = number[0] == number[1]
+        var isTimeOver = time[0][0] == time[1][0] && time[0][1] == time[1][1]
+
+        if(isTimeOver){
+            await writeSlideText(page_1)
+        }
+
         await timer(13 * 1000)
         await clickPause(page_1)
         await timer(0.3 * 1000)
         await clickPlay(page_1)
 
-        var {number, time} = await getProgress(page_1)
-        var isLastSlide = number[0] == number[1]
-        var isTimeOver = time[0][0] == time[1][0] && time[0][1] == time[1][1]
 
         console.log(number, time)
 
@@ -246,6 +251,19 @@ async function getSlides(page_1, folderIndex){
 }
 
 
+async function writeSlideText(page_1){
+    var slidesTxtFile = './Slides txt content/slides.txt'
+    var slidesTxt = fs.readFileSync(slidesTxtFile)
+
+    var innerFrame = await getInnerFrame(page_1)
+
+    slidesTxt += await innerFrame.$$eval('#playerView .kern.slide span', elements => {
+        var testo = '\n'
+        elements.forEach(x => {testo += '\n' + x.textContent})
+        return testo
+    })
+    fs.writeFileSync(slidesTxtFile, slidesTxt)
+}
 
 
 
