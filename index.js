@@ -6,7 +6,7 @@ const { get } = require('http');
 var progress = {
     slideIndex, createImages,
     folderIndex, overrideImages,
-    headless
+    headless, corso
 } = JSON.parse(fs.readFileSync('./progress.json'));
 console.log('Progress: ', progress);
 
@@ -53,7 +53,7 @@ async function login(page_1){
     // await page_1.evaluate(() => showCorsiFad(true))
     await timer(3 * 1000)
     var courseButtons = await page_1.$$('button.action-openCorso')
-    await courseButtons[0].click()
+    await courseButtons[corso].click()
     // await page_1.evaluate(() => openCorsoTable("yui-rec0"))
     await timer(3 * 1000)
     // await page_1.evaluate(() => showPlayerCorso())
