@@ -1,0 +1,1171 @@
+CORRETTORE CORSO
+CYBER SECURITY
+Cos'è l'Iot?
+il controllo diretto di una miriade di dispositivi fisici tramite internet
+Chi ha inventato il neologismo "CyberSpazio"?
+William Gibson
+Chi ha inventato il termine "Cibernetica"?
+Norbert Wiener
+Da cosa deriva il termine "Cibernetica"?
+dal greco kybernetes
+L'espressione "Internet of Things" è stata creata?
+al MIT
+Secono Sundmaeker, L'IoT?
+collega gli oggetti del mondo reale con il mondo virtuale
+L'espressione "sistemi cyber-fisici" è generalmente attribuita a
+Radhakisan Baheti e Helen Gill
+Un sistema Cyber-Physical è
+un sistema in cui i componenti di elaborazione e gli elementi fisici sono strettamente
+integrati
+Secondo Lee, per realizzare il pieno potenziale di un CPS
+è necessario ripensare il modello architettonico di sviluppo software che, si spera, dovrà
+contemplare la dinamica componente del sistema fisico e sviluppo software unificato.
+La comunicazione n. 702 propone
+l'istituzione del Programma europeo per la protezione delle infrastrutture critiche
+L'obiettivo EPCIP è
+assicurare il funzionamento delle infrastrutture critiche europee
+All'articolo 5 della direttiva n. 144, c’è
+la procedura obbligatoria per i paesi membri per l'attuazione del piano di sicurezza degli
+operatori (OSP ),
+Gli autori del ransomware
+contattano l'utente e, in cambio di denaro, forniscono il codice di sblocco e il recupero dei
+loro dati
+Il Cyber spionaggio, invece, riguarda generalmente
+operazioni di intelligence che hanno come scopo primario quello di guadagnare l’accesso a
+informazioni riservate, sensibili e strategiche
+Un governo
+può spingersi fino a sostenere o non ostacolare attività illegali di spionaggio informatico
+contro industrie o società straniere
+Il Cross-site scripting (XSS) è
+Inclusione di codice html all’interno di una pagina web per effettuare operazioni malevoli
+quali prelievo di cookies privati
+Il Deep Web
+è tutta quella fetta della rete mondiale non indicizzata dai motori di ricerca, contenente
+pagine Web con contenuti dinamici, software Web deliberatamente nascosto, siti di società
+private o configurati non rispettando gli standard, contenuti vietati da motori perché illegali
+L'ultima tendenza nel mercato nero
+è rappresentata dai servizi di pirateria informatica
+Il worm che ha determinato la consapevolezza istituzionale dei rischi informatici
+è stato diffuso su Internet nel 1988, con il nome di Morris
+nel 2000, il virus "The love bug"
+infetta circa 55 milioni di computer
+Zeus è
+un trojan bancario in grado di rubare informazioni bancarie
+Russian Business Network è
+una delle principali organizzazioni criminali del crimine informatico
+Il malware "Black Energy"
+ha disconnesso diverse sottostazioni elettriche di rete
+NIST sta per
+National Institute of Standards and Technology
+Il frame work del NIST offre
+offre cinque funzioni - suddivise in categorie e sottocategorie, relative a regole e
+controlli di sicurezza
+Il frame work del NIST prevede le seguenti funzioni
+Identificare, Proteggere, Rilevare, Rispondere, Ripristinare
+L'anno decisivo perché la sicurezza fosse posta al centro dell'attenzione è stato
+il 2016
+IL GDPR è noto come
+Regolamento 679/2016
+La Direttiva n. 1148/2016 è nota come
+Direttiva NIS
+Il NISP è
+incaricato di identificare e designare l'ICE
+Il primo strumento legislativo per l'organizzazione della sicurezza informatica
+nazionale
+il D.P.C.M. del 24 gennaio 2013
+La direzione e l'organizzazione delle attività del CERT della Pubblica
+Amministrazione è affidata ad
+AgID
+I sistemi di controllo industriale più utilizzati sono
+i sistemi SCADA
+La definizione di "gestione del rischio" intesa come processo di gestione del
+rischio, è riportata nella norma internazionale
+ISO 31000: 2009
+Risk Assessment è
+il “processo di identificazione dei rischi, analisi dei rischi e valutazione dei rischi”
+L'approccio semiquantitativo
+consiste nella combinazione di metodi qualitativi e quantitativi in ??cui gli indicatori
+vengono generalmente identificati dapprima in modo qualitativo, quindi espressi in
+termini quantitativi, per essere successivamente utilizzati nei calcoli numerici.
+Risk Assessment è
+il “processo di identificazione dei rischi, analisi dei rischi e valutazione dei rischi”
+Se si desidera valutare il livello di sicurezza di una determinata
+configurazione del sistema
+il primo passo è sicuramente eseguire una valutazione della vulnerabilità
+Bot è
+un'applicazione software che esegue attività automatizzate (script) su Internet
+Keylogger è
+uno strumento in grado di intercettare tutto ciò che un utente immette sulla
+tastiera del proprio computer
+Trojan è
+è un tipo di malware che deve il suo nome al fatto che le sue funzionalità
+sono nascoste all'interno di un programma apparentemente utile
+Le Backdoor sono
+"porte" di servizio (ovvero le porte sul retro) che consentono di superare
+parzialmente o totalmente le procedure di sicurezza attivate in un sistema IT
+Ransomware è
+è un tipo di malware che limita l'accesso al dispositivo infetto
+Spam è
+l'invio di messaggi, anche a indirizzi generici, non verificati o sconosciuti, ad alta
+frequenza o monotematici che li rendono indesiderata
+È buona norma usare password
+lunghe e con caratteri speciali
+Antivirus / Antispam
+è un software programmato per essere eseguito su un computer progettato per
+prevenire, rilevare e possibilmente rendere innocui codici dannosi
+Una buona politica di sicurezza prevede
+password lunghe e cambiate spesso, black list, l'uso di numeri e caratteri speciali
+Scanner delle vulnerabilità
+è un programma progettato per ricercare e mappare le vulnerabilità (punti
+deboli) di un'applicazione, un computer o una rete
+Firewall
+metodo di difesa contro l'integrità del sistema, è un'entità hardware o software
+posizionata tra Internet e la rete (firewall LAN) o l'host (Personal Firewall) che si
+desidera proteggere
+I Proxy
+sono programmi applicativi con funzioni di intermediario tra client e server
+Il Network Node IDS
+analizza il traffico di rete che passa su un singolo nodo
+Honeypot
+è un componente di sistema o hardware o software utilizzato come "trap" o "esca"
+per la protezione dagli attacchi informatici
+Black List
+elenco di server classificati come spammer che viene attivato sul server di posta
+rifiutando la posta proveniente da questo elenco
+Crittografia
+tecnica che consente di "crittografare" un messaggio rendendolo incomprensibile a
+tutti tranne che al destinatario.
+Trasposizione
+anche chiamata permutazione significa mescolare i caratteri di un messaggio in un
+nuovo ordine.
+Crittografia simmetrica
+metodo con algoritmi che utilizzano la stessa chiave per crittografare e
+decrittografare i messaggi
+Crittografia asimmetrica
+metodo con algoritmi la cui chiave di crittografia è diversa da quella della
+decrittazione
+Il Message Digest
+è una sequenza di bit di lunghezza limitata e fissa associata a un messaggio (P)
+di cui rappresenta la firma (o l'impronta), ottenuta mediante una funzione hash
+crittografica
+I Certificati sono un documento elettronico che certifica l'associazione univoca tra una
+chiave pubblica e l'identità di un soggetto
+Algoritmo di firma
+algoritmo utilizzato per firmare il certificato
+Kerberos è
+un protocollo di autenticazione (progettato al MIT) che implementa il
+modello "Key Distribution Center".
+IPsec è
+un livello di crittografia posizionato a livello di rete, che rende la crittografia
+trasparente a livello delle applicazioni, che non deve essere modificata
+NASL è
+un linguaggio di scripting specializzato per le comunicazioni su una rete TCP / IP
+I valori booleani
+"falso" che corrisponde al valore di ritorno "0" per gli operatori di
+confronto e "vero" che corrisponde a "1".
+NASL ti consente
+di sviluppare plugin in grado di eseguire attacchi a diversi livelli dello stack
+ISO / OSI
+Malvertising
+è un'abbreviazione delle parole pubblicità maligna e si riferisce all'uso della
+pubblicità online come veicolo per diffondere malware
+Attacchi di ingegneria sociale
+attacchi in cui un criminale induce qualcuno a fare qualcosa che non avrebbe fatto
+se si fosse reso conto che la persona che stava facendo la richiesta lo stava
+ingannando
+Forza bruta
+i criminali usano strumenti automatizzati che provano tutte le password possibili
+fino a quando non colpiscono quella corretta.
+Gli attacchi avanzati possono essere
+opportunistici, mirati o una combinazione di entrambi.
+Il termine script kiddies
+si riferisce a persone che hackerano, ma che sono in grado di farlo solo perché
+sanno come utilizzare script e / o programmi sviluppati da altri per attaccare i
+sistemi informatici
+Il termine script kiddies
+sono attivisti che usano l'hacking per diffondere il messaggio della loro "causa"
+Esempi di ingegneria sociale includono
+tutti i comportamenti precedenti\seguenti
+Uno dei maggiori rischi per la disponibilità dei dati sono
+i disastri esterni
+Il diritto all'oblio si riferisce al diritto delle persone di
+bloccare l'accesso a Internet di determinati dati negativi su di loro o di rimuovere le
+voci dai risultati dei motori di ricerca sui loro nomi se le informazioni contenute in
+tali voci sono obsolete o irrilevanti
+Il primo passo per migliorare la tua protezione contro le minacce informatiche è:
+capire esattamente cosa devi proteggere
+Difendere il tuo cyber perimetro è
+l'equivalente digitale della costruzione di un fossato attorno a un castello
+Network Address Translation
+consente ai computer della rete domestica di utilizzare indirizzi IP (Internet Protocol) non
+validi per l'uso su Internet
+Per
+attivate
+la modalità privacy su google chrome
+Control + Shift-N o seleziona Nuova finestra di navigazione in
+incognito dal menu
+Il Pin per l'internet banking
+non deve essere correlato ad informazioni conosciute
+Sicurezza fisica significa
+proteggere qualcosa dall'accesso fisico non autorizzato, sia da parte dell'uomo che
+della natura
+Nel contesto della sicurezza informatica, l'obiettivo della sicurezza fisica è
+garantire che
+i sistemi e i dati digitali non siano messi a rischio a causa del modo in cui sono
+alloggiati fisicamente.
+I dispositivi mobili sono
+dispositivi computerizzati che vengono spostati di frequente
+quando si tratta di dispositivi mobili, è necessario
+mantenere i dispositivi in vista o bloccati
+i rischi maggiori per le aziende
+sono i dipendenti
+Il primo passo più significativo per proteggerti digitalmente
+è capire che sei un bersaglio e che le parti nefaste hanno il desiderio di
+violare i tuoi sistemi informatici
+Se un sito Web offre copie gratuite di film, software o altri oggetti
+Di ridistribuzione a scopo politico può essere che distribuisca malware
+L'autenticazione a più fattori indica l'autenticazione che richiede all'utente di eseguire
+l'autenticazione utilizzando
+due o più metodi
+Un metodo che aumenti la sicurezza è
+avere un secondo computer che utilizzi solo per l'internet banking
+accedendo ad un sito, l'icona del lucchetto nella barra indirizzi indica che viene
+utilizzato HTTPS crittografato
+Google Voice
+ti consente di stabilire un nuovo numero di telefono che inoltra al tuo
+cellulare per proteggersi, è bene non condividere informazioni eccessive circa la
+propria famiglia
+Nell'autenticazione basata su SMS
+un codice viene inviato al tuo cellulare
+I token hardware
+generano nuove password monouso ogni x secondi
+È possibile l'autenticazione tramite
+dispositivo USB
+Scambaiting
+una forma di vigilantismo in cui le persone fingono di essere credulone,
+aspiranti vittime e sprecano il tempo e le risorse dei truffatori attraverso
+interazioni ripetute
+quali sono i sei principi della psicologia della persuasione secondo
+Robert Beno Cialdini sfruttati dall'ingegneria sociale?
+Prova sociale, Reciprocità, Autorità, Probabilità, Coerenza e impegno,
+Scarsità
+pubblicare foto di viaggi e vacanze
+genera il rischio di un rapimento "virtuale"
+pubblicare foto di riti religiosi e appuntamenti ripetuti
+genera il rischio di un rapimento "virtuale"
+Meno connessioni ha un account apparentemente appartenente a una persona
+di livello senior su LinkedIn
+maggiore è il rischio di una truffa
+Meno connessioni ha un account apparentemente appartenente a una persona
+di livello senior su LinkedIn
+maggiore è il rischio di una truffa
+L'invio di e-mail di massa (spamming) è
+proibito
+Nessun dispositivo aziendale dotato di funzionalità Wi-Fi o di comunicazione
+cellulare può essere acceso
+in Cina o in Russia senza l'esplicito consenso scritto del CEO
+dell'azienda
+Tutte le password per tutti i sistemi utilizzati come parte del lavoro di un
+dipendente
+devono essere univoche e non riutilizzate su altri sistemi
+L'assicurazione informatica
+viene concessa solo a chi ha determinati livelli di sicurezza
+PCI DSS
+è uno standard di sicurezza delle informazioni per le organizzazioni che
+gestiscono le principali carte di credito e le loro informazioni associate
+Un negozio di articoli elettroni che spedisca merce in Europa
+è soggetto al GDPR
+HIPAA è
+Health Insurance Portability and Accountability Act
+L'HIPAA prevede
+rigide sanzioni per la mancata difesa impropria dei dati sanitari
+L'acronimo BYOD sta per
+Bring your own device
+Perchè l'apprendimento delle tastiere è un pericolo?
+Perché, se si usa il BYOD, il dipendente porta via sul proprio dispositivo
+informazioni sensibili sull'azienda
+La maggior parte delle violazioni
+è difficile da rilevare
+I malware in esecuzione su un computer, tablet o smartphone
+rallentano il dispositivo e la connessione
+La latenza
+si riferisce al tempo impiegato dai dati per iniziare a viaggiare
+Il buffering dei video
+può essere un sintomo di infezione
+Se i tuoi amici o colleghi segnalano di aver ricevuto messaggi di testo
+può essere un sintomo di violazione
+Un maggiore utilizzo di dati o messaggi di testo (SMS)
+può essere un sintomo di violazione
+Se uno o più dispositivi di input esterni si accendono all'improvviso
+può essere un sintomo di violazione
+Per ripristinare il browser Chrome
+Fai clic sull'icona del menu a tre punti nell'angolo in alto a destra. Fai clic
+su Impostazioni. Scorri verso il basso fino alla sezione All'avvio e configuralo
+di conseguenza
+Il backup è
+un must
+Il backup va fatto
+regolarmente
+Il backup completo di sistema comprende
+sistema operativo, programmi / app, impostazioni e dati
+I backup differenziali contengono
+tutti i file modificati dall'ultimo backup completo
+I backup incrementali contengono
+copie della sola parte dei dati
+I backup parziali
+sono backup di una porzione di dati
+Backup dell'unità virtuale
+sono backup in cui una persona o un'organizzazione utilizza
+un'unità virtuale crittografata
+Archiviazione fuori sede
+sono backup in una posizione diversa rispetto all'archivio dati
+Archiviazione fuori sede
+primario
+sono backup in una posizione diversa rispetto all'archivio dati
+Per ripristinare IPHONE
+Esegui l'app Impostazioni e scegli Generali ? Ripristina ? Cancella tutto il
+contenuto e le impostazioni
+Il ripristino del sistema da un'immagine
+spesso non funziona su un sistema con componenti hardware completamente
+diversi rispetto al sistema che era stato originariamente immaginato
+il CISO è
+il responsabile della sicurezza delle informazioni
+L'Hacker Etico
+tenta di attaccare, penetrare e altrimenti compromettere sistemi e reti per conto di -
+e con il permesso esplicito dei proprietari
+L'Hacker Offensivo
+tenta di entrare nei sistemi degli avversari per paralizzare i sistemi o rubare
+informazioni
+CISSP sta per
+Certified Information Systems Security Professional
+LA CISSP è stata lancita originariamente nel
+1994
+CISM sta per
+Certified Information Security Manager
+CEH sta per
+Certified Ethical Hacker
+GSEC sta per
+Global Essential Assurance Security Essentials Certification
+Stuxnet era
+un malware del 2009/2010 lanciato da Usa e Israele contro l'Iran
+Google Glass è
+una tecnologia per occhiali intelligente costituita da un dispositivo di
+visualizzazione e fotocamera incorporato in un paio di occhiali
+Cyber Kill Chain è
+solo una descrizione dettagliata di come gli hacker attaccano e di come generalmente
+si svolge un cyber-attacco
+La Cyber Kill Chain è un'espressione ideata da
+Martin Lockheed
+La prima fase della Cyber Kill Chain è
+la Ricognizione
+L'Exfiltration è
+la fase in cui inizia l'attacco principale
+British Airways nel 2019 ha dovuto pagare
+225 milioni di dollari
+Sustainment o sostegno si verifica
+quando gli attori delle minacce sono già in roaming liberamente nella rete e
+copiano tutti i dati che ritengono utili
+Stuxnet è costituito da
+sei file, quattro file di scelta rapida dannosi con nomi basati su" Copia del
+collegamento in .lnk "e due file con nomi che li fanno apparire come file
+temporanei comuni
+La steganografia consiste
+nel nascondere informazioni segrete in dati palesi
+la gestione del ciclio di vita della minaccia comincia con
+la raccolta di dati forensi
+durante la fase di neutralizzazione
+vengono applicate le mitigazioni per eliminare o ridurre l'impatto di una minaccia
+identificata su un'organizzazione
+Kismet è
+uno sniffer di rete wireless e un sistema di rilevamento delle intrusioni
+Airgeddon è
+uno strumento di hacking Wi-Fi che può essere utilizzato per consentire agli hacker
+di accedere a una connessione Wi-Fi protetta da password
+La Daeuther Board è
+è uno strumento di attacco non convenzionale poiché non è solo un software ma
+piuttosto una scheda plug-and-play che può essere collegata a qualsiasi computer
+EvilOSX è
+uno strumento di attacco per sistemi Mac
+Evil Twin attack è
+un punto di accesso Wi-Fi che "finge" di essere legittimo ma è impostato
+per intercettare le comunicazioni wireless
+Webshag è
+è uno strumento di scansione del server che può eludere il rilevamento
+tramite i sistemi di rilevamento delle intrusioni
+PhoneInfoga
+è uno degli strumenti attualmente utilizzati per trovare dati utilizzabili su un
+target utilizzando il proprio numero di cellulare
+Uno dei principi su cui si basa l'Ingegneria Sociale è
+l'autorità
+Pretexting è
+un metodo per esercitare una pressione indiretta sugli obiettivi per indurli a divulgare
+alcune informazioni o eseguire azioni insolite
+Il Furto di diversione è
+convincere le compagnie di consegna e di trasporto che le loro consegne e servizi
+sono richiesti altrove
+Il Phishing telefonico è
+è un tipo unico di phishing in cui l'attaccante utilizza le telefonate anziché le
+e-mail
+Lo spear phishing è
+mirato a ottenere informazioni da determinati utenti finali di un'organizzazione
+Il Water holing è
+è un attacco di ingegneria sociale che sfrutta la quantità di fiducia che gli utenti
+danno ai siti Web che visitano regolarmente, come forum di chat interattivi e forum
+di scambio, durante le visite ai quali le vittime sono infettate con un malware
+Il Baiting è
+È una delle tecniche di social engineering più semplici poiché tutto ciò che
+comporta è un dispositivo di archiviazione esterno lasciato incustodito, in modo
+che il malcapito lo trovi e si infetti
+Airgraph-ng
+prende in prestito le capacità di scansione di Aircrack-ng e le combina con risultati
+estetici che aiutano gli hacker a ottenere una visione più chiara dei dispositivi in
+rete
+Prismdump
+Progettato solo per Linux, questo strumento consente agli hacker di annusare con
+schede basate su chipset Prism2
+Scanrand
+è uno strumento di scansione che è stato creato appositamente per essere
+estremamente veloce ma efficace
+Cain and Abel
+è uno degli strumenti più efficaci per decifrare le password create
+appositamente per la piattaforma Windows, ma non funziona con Win10
+Metasploit
+è un framework leggendario composto da una serie di strumenti che vengono
+utilizzati per la scansione e lo sfruttamento delle reti
+Hak5 Plunder Bug è
+è uno strumento che ha lo scopo di aiutare specificamente gli hacker a intercettare i
+filmati delle telecamere a circuito chiuso nelle reti
+TEST STRATEGIE 1
+Qual è l'atteggiamento giusto per la sicurezza informatica?
+non dire "abbiamo sempre fatto in questo modo"
+Qual è un requisito necessario per difendere la sicurezza?
+la comunicazione aperta tra le squadre
+La gestione del rischio è spesso suddivisa in quattro fasi:
+identificare, valutare, limitare e monitorare
+ISAC sta per:
+Information Sharing and Analysis Centers
+"Caterina sa che un determinato endpoint non ha accesso ad altri endpoint
+ed esegue un'applicazione di terze parti": si tratta di
+Accettare il rischio
+"Gianni estende il trattamento dei dati della carta di credito a terzi invece
+di conservare i dati sul sito": si tratta di
+Trasferire il rischio
+"Davide decide che l'archiviazione dei codici fiscali dei clienti è un processo
+non necessario e interrompe la pratica": si tratta di
+Evitare il rischio
+Gli obiettivi intermedi possono essere suddivisi in quattro spezzoni o fasi:
+Fase 1, vittorie veloci, Fase 2, entro l’anno Fase 3, l’anno prossimo, Fase
+4, a lungo termine
+"L'estrazione della cache ARP
+fornirà un elenco di indirizzi IP e MAC collegati alla rete
+PowerShell È uno strumento
+molto versatile e potente in ambiente Windows
+Esistono molti pacchetti software che
+oltre a fornire un'interfaccia Web per le normative, incorporano anche revisioni,
+controlli di revisione e processi di approvazione
+Gli standard definiscono
+il “come” di una normativa da un punto di vista tecnologico senza particolari
+dettagli procedurali
+il linguaggio utilizzato nella documentazione relativa agli standard
+dovrebbe essere abbastanza semplice, chiaro e utilizzare parole come “dovranno” e
+“devono”.
+La documentazione per standard e procedure dovrebbe contenere alcuni punti chiave
+Controllo di revisione, Titolare\Validatore, Scopo, Campo di applicazione,
+Dichiarazioni Direttive, Documenti correlati.
+Secondo il Verizon Data Breach Investigations Report 2015
+il phishing è ancora un mezzo di attacco comune
+Il concetto di Curva della dimenticanza di Ebbinghaus fa riferimento
+al fenomeno per cui gli utenti finali non applicano come
+dovrebbero nelle loro attività lavorative quotidiane ciò che hanno imparato
+durante i corsi
+è necessario appoggiare sempre il puntatore del mouse
+sui collegamenti nell'e-mail prima di fare clic. per verificarne il percorso
+Un anno come obiettivo per ridurre le cancellazioni di malware dai desktop
+può non essere sufficiente
+Lo shock dell'incidente
+farà riflettere i dipendenti quando appariranno in futuro delle e-mail che potrebbero
+sembrare un po 'strane e fuori posto
+La Ludicizzazione è
+applicare i principi del gioco a una situazione
+Il primo punto di riferimento post incidente, come per qualsiasi tipo di problema
+operativo, è
+l'umile file di registro
+SIEM sta per
+Security Information and Event Management
+GLBA sta per
+Gramm-Leach-Bliley Act of 1999
+GLBA è
+una legge emanata nel 1999 per correggere e modernizzare le norme che interessano
+le istituzioni finanziarie
+FERPA è
+una legge federale americana che protegge la privacy dei registri scolastici degli
+studenti sia nelle scuole pubbliche e private, sia nelle università
+FERPA sta per
+Family Educational Rights and Privacy Act
+SOX sta per
+Sarbanes-Oxley Act
+SOX è
+una legge emanata nel 2002 per esporre i requisiti di sicurezza per tutte le
+pubbliche amministrazioni, commissioni e società di contabilità degli Stati Uniti
+CCM è
+un framework creato appositamente da CSA (Cloud Security
+Alliance) pensando alla sicurezza nel cloud
+CCM sta per
+Cloud Control Matrix
+ISO-27002
+Stabilisce linee guida e principi generali per avviare, implementare,
+mantenere e migliorare la gestione della sicurezza delle informazioni
+all’interno di un’organizzazione
+ISO-27006
+Requisiti per gli enti che si occupano di revisione e certificazione dei sistemi
+di gestione della sicurezza delle informazioni.
+ISO-27005
+Fornisce linee guida per la gestione del rischio di sicurezza delle informazioni
+(ISRM) in un’organizzazione.
+MS-08-067 è
+un semplice bug che consente l'esecuzione di codice remoto
+FSMO sta per
+Flexible Single Master Operation
+I ruoli di FSMO
+sono i sette ruoli speciali che possono essere configurati come controller di dominio
+in Microsoft Technet
+FSMO sta per
+Flexible Single Master Operation
+Gli oggetti Criteri di gruppo NIST
+contengono impostazioni quali i requisiti standard per la protezione della password,
+la disabilitazione degli hash LM per le password degli account di dominio, la
+disabilitazione dell'account guest locale e la disabilitazione delle credenziali utente
+nella cache, nonché centinaia di altre impostazioni per utenti e computer
+Enhanced Mitigation Experience Toolkit è
+un'utilità che aiuta a prevenire lo sfruttamento corretto delle vulnerabilità del
+software
+EMET sta per
+Enhanced Mitigation Experience Toolkit
+Il comando EMET_Conf.exe –export EMET_Endpoint_Profile.xml serve per
+esportare il modello
+l'opzione --import con EMET serve per
+per importare il file XML
+Il comando update: $ sudo apt-get update si usa in
+Debian Unix
+I client MacOS possono essere aggiornati centralmente utilizzando
+Software Update Service
+L'uso del comando kill
+interrompe solo il servizio attualmente in esecuzione, che si riattiverà nuovamente
+al riavvio del sistema
+Windows include uno strumento chiamato
+BitLocker, che si trova in Pannello di controllo / Sistema e
+Sicurezza / Crittografia unità Bitlocker
+FileVault è uno strumento
+simile a BitLocker ma in OSX
+quando lo schermo dell'host è bloccato o in modalità di sospensione
+il computer non è al sicuro da un aggressore fisico
+Ai fini della sicurezza, vanno presi in considerazione
+tutti gli endpoint, anche altri dispositivi come stampanti e condizionatori d'aria,
+ventole e condizionatori d'aria, stampanti, etc.
+Le apparecchiature SCADA
+devono essere trattate come qualsiasi altra parte della rete:
+documentate, protette e testate come misura precauzionale
+8 caratteri tutti in minuscolo, corrispondono a
+26^8 combinazioni
+8 caratteri maiuscoli e minuscoli , corrispondono a
+52^8 combinazioni
+Una frase segreta composta da 10 caratteri in maiuscolo, minuscolo, numeri e
+simboli corrisponde a
+94 ^ 10 combinazioni. Può essere violata in circa 600 anni
+Il riutilizzo della password è un problema comune che può essere
+risolto
+utilizzando un gestore password
+Qual è il problema dell'autenticazione a due fattori?
+se diamo risposte veritiere, un hacker che ci conosce le violerà subito
+Usiamo il gestore di password per?
+salvare risposte incongrue logicamente ma imprevedibili perl’hacker
+Se utilizzo ROT13 per crittografare, la frase "Cvrgeb r Cnbyb fbab qhr fnagv"
+vorrà dire
+Pietro e Paolo sono due santi
+Se utilizzo ROT13 per crittografare, la frase "La Juventus non incontra i miei
+gusti" verrà tradotta
+Yn Whiraghf aba vapbagen v zvrv thfgv
+Il salting funziona
+aggiungendo un ulteriore valore segreto all'input
+Bcrypt
+è un algoritmo di hash che per impostazione predefinita include l'uso di
+valori di salting univoci per ciascun hash
+il Firmware- per installare un firmware
+tutte le altre seguenti/precedenti risposte sono vere
+Per scansionare tutte le porte TCP con nmap, usare il comando
+nmap -sT -p1-65535 10.0.10.1/32-sT
+Se ottengo un output di nmap come questo L'host è attivo (latenza di 0.00043s).
+Non mostrato: 1021 porte chiuse SERVIZIO STATO PORT 23 / tcp open telnet 80
+/ tcp open http 443 / tcp open https
+vuol dire che le porte 23, 80 e 443 sono aperte
+L'uso più comune di SNMP è
+la raccolta di dati di telemetria come quelli relativi all'utilizzo della larghezza di
+banda, all'utilizzo della CPU, al consumo di memoria
+DDoS amplificato
+È una tecnica con cui un attaccante che intende attaccare l'host
+X troverà un host Y che userà come amplificatore
+Gli host Ramparts
+sono server specificamente rinforzati situati su una rete per fungere da punto di
+accesso singolo a quella rete
+EIGRP sta per
+Enhanced Internal Gateway Routing Protocol
+Le VLAN possono essere utilizzate per
+impedire a un utente malintenzionato di accedere a una rete disconnettendo un
+dispositivo legittimo e collegando invece un dispositivo dannoso
+802.1X è
+È uno standard per l'autenticazione a livello di porta
+SDN sta per
+Software Defined Network
+Rispetto ai ruoli nella gestione delle responsabilità
+nessun individuo dovrebbe avere un accesso eccessivo al sistema che gli consente di
+eseguire azioni in tutto l'ambiente senza divisione dei poteri
+È una buona idea
+Avere un endpoint separato per le attività amministrative
+È una buona idea
+Avere in generale ruoli separati per i server
+Tra le cause di attacco abbiamo:
+tutte le precedenti o seguenti
+Le scansioni delle vulnerabilità
+possono essere autenticate o non autenticate
+perché esiste anche un'opzione per utilizzare scansioni non autenticate?
+perché possono fornire informazioni su ciò che un attaccante potrebbe ottenere
+l'esercizio della gestione delle vulnerabilità come un normale processo di
+amministrazione
+si basa su un approccio sistematico
+CVSS sta per
+Common Vulnerability Scoring System
+CVSS è un
+metodo per calcolare la gravità
+La squadra viola è
+la squadra formata da professionisti della difesa che apprendono e praticano tecniche
+offensive
+OSINT sta per
+Open Source Intelligence
+OSINT è
+La disciplina che riguarda le informazioni prodotte da fonti disponibili al
+pubblico
+Portare immondizia e materiali riciclabili all'esterno dell'azienda
+introduce la minaccia che qualsiasi passante possa rovistare nei cassonetti o nei
+contenitori per il riciclaggio
+Aggiungere al pannello contatti un indirizzo di posta elettronico con testo bianco
+su sfondo bianco
+serve a far prelevare quell'indirizzo, non utilizzato veramente, ai bot che raschiano
+indirizzi per il phishing
+cercando inurl: wpconfig -intext: wp-config "DB_PASSWORD"
+(https://www.exploit-db.com/ghdb/4181/)
+si otterrà un risultato con molte password del database Wordpress
+Maltego
+ti consente di aggregare le informazioni pubblicate su Internet:
+Recon-ng è
+è un framework di ricognizione web completo scritto in Python
+In Recon-ng il modulo interesting_files
+può essere caricato per scansionare le ubicazioni di file potenzialmente
+sensibili e tentare di trovare una corrispondenza
+theharvester.py ha l'iobiettivo
+di raccogliere indirizzi e-mail, sottodomini, host, nomi dei dipendenti, porte
+aperte e banner da varie fonti pubbliche come motori di ricerca, server di
+chiavi PGP e database di computer
+Rawr sta per
+Rapid Assessment of Web Resources
+Rawr serve a
+scansionare una rete e ottenere un rapporto e le immagini di tutte le pagine web
+ascoltate
+Le tecnologie IDS e IPS basate sulla rete
+analizzano i dati quando vengono trasmessi attraverso la rete e non hanno accesso
+ai dati situati sugli endpoint
+FingerprinTLS
+può essere utilizzato per determinare quale client ha avviato una connessione
+crittografata
+Il log è
+un registro in gergo tecnico
+Per conservare i registri
+Windows utilizza il Visualizzatore eventi mentre le piattaforme Unix di solito si
+basano sulla directory / VAR / LOG
+I sistemi di autenticazione
+sono un ovvio punto di partenza per l'analisi
+Se lo stesso utente ha tentato una connessione non riuscita su ciascuno dei 350
+host in 2 minuti
+siamo, probabilmente, in presenza di una attività sospetta
+I dati rubati da una talpa interna
+sono uno degli attacchi più difficili e avanzati da rilevare
+HELO mx.batsareawesome.com è
+Un esempio di saluto corretto del server di posta
+Se viene trovata la firma
+è probabile che il programma sia infetto
+Imballaggio
+è una strategia utilizzata dagli autori di malware per mascherare il significato del
+loro software dannoso nel tentativo di ingannare l'analisi basata sulla firma
+Crittografia è
+è una strategia utilizzata dagli autori di malware per eseguire la codifica semplice
+mentre altri utilizzano la crittografia complessa o le istruzioni per il download da
+un host remoto.
+Ci sono molte più sfide nell'analisi del codice
+binario rispetto all'analisi del codice sorgente
+gli algoritmi di hash fuzzy sono
+noti anche come digest di similitudine
+REDEBUG
+impiega l'hash delle funzionalità per codificare n-token in un vettore bit
+Il primo algoritmo di isomorfismo grafico adatto a piccoli grafici è stato proposto
+nel
+1976
+In BINASH
+ogni funzione è rappresentata utilizzando una serie di funzioni definite come input e
+output di un blocco di base
+IDA PRO è
+un disassemblatore e debugger multiprocessore ospitato su Windows, Linux e Mac OS
+X
+OBJDUMP
+fa parte delle GNU Binutils per un controllo approfondito su eseguibili e altri
+dati binari
+PARADYN
+è uno strumento utilizzato per analizzare e convertire il codice
+binario
+OLLYDBG
+è un debugger di analisi a livello di assembly a 32 bit per Microsoft Windows
+JAKSTAB
+rappresenta un disassemblaggio basato sull'interpretazione astratta e un quadro di
+analisi statica che consente di analizzare eseguibili e recuperare grafici di flusso
+di controllo affidabili
+L'algoritmo di clustering
+genera cluster di programmi basati su distanze relative in uno spazio ddimensionale
+In genere, i file binari vengono convertiti in file di assieme
+utilizzando un disassemblatore
+TRIGRESS viene utilizzato per offuscare il codice sorgente utilizzando i
+seguenti metodi
+Virtualizzazione, Jitting, Dynamic
+BITBLAZE viene utilizzato per offuscare il codice sorgente utilizzando
+i seguenti metodi
+rappresenta una piattaforma di analisi binaria in grado di estrarre
+automaticamente proprietà relative alla sicurezza dal codice binario per una
+difesa efficace
+BAP è
+una piattaforma disponibile pubblicamente per eseguire la verifica e l'analisi
+del programma su codice binario
+IBINHUNT è
+una nuova tecnica di diffing binario in grado di far fronte all'offuscamento di
+funzioni mirato a strumenti di diff binario che confrontano i flussi di controllo
+intra-procedurali
+BINJUICE è
+uno strumento per estrarre il "succo" di un binario in cui il termine "succo"
+indica l'astrazione della semantica dei blocchi di un binario
+BINGRAPH è
+un nuovo meccanismo che consente di scoprire con precisione malware
+metamorfico
+MALHEUR è
+è uno strumento per l'analisi automatica del malware
+Il processo di livello 1 ha come obiettivi primari
+La costruzione del profilo di trasformazione del compilatore (CTP) e l'assegnazione
+di tag del compilatore (CT)
+L'abbreviazione SRC indica
+il codice sorgente originale
+Il fingerprinting delle funzioni
+dipende dai confronti di somiglianza a coppie per le funzioni di assemblaggio
+L'obiettivo del livello 3
+è rilevare proprietà del compilatore più raffinate, come il livello di
+ottimizzazione e la versione
+L'ECP
+modella l'identificazione del compilatore come un problema di classificazione
+strutturato
+l'approccio ECP può
+raggiungere un'accuratezza relativamente elevata
+Nell'approccio ECP all'aumentare del numero di funzioni,
+il tempo di esecuzione potrebbe aumentare ancora più rapidamente
+Nell'approccio ECP le funzionalità di compilatori specifici
+possono diventare evidenti solo dopo aver esaminato un gran numero di file binari
+Di cosa si occupa la norma ISO 27001/2013?
+Sistema di gestione della Sicurezza delle informazioni
+Quale Framework è stato applicato?
+SL ANNEX - ISO/IEC
+Cosa si intende con certificazione?
+l’atto mediante il quale una terza parte indipendente dichiara che, con ragionevole attendibilità, un
+determinato prodotto, processo o servizio è conforme a requisiti specificati.
+Cosa si intede per certificazione regolamentata?
+Quella che fa riferimento a leggi nazionali o regolamenti comunitari
+Quale schema adotta la norma iso 27001?
+HSL
+Cosa si intende per Responsabilità?
+l'impegno di Leadership e dirigenza nella gestione dell'organizzazione
+La 27001 è una norma a certificazione
+Volontaria
+Il certicato ISO 27001 dura
+3 anni
+Il rischio in termini di sicurezza &egrave; generalmente caratterizzato dalla seguente equazione{
+Rischio = (minaccia * vulnerabilità) / contromisura
+L’integrità è;
+tutte le seguenti\precedenti
+Perchè implementare un ISMS?
+Proteggere la disponibilità di informazioni e processi aziendali critici dagli effetti delle principali
+catastrofi per garantire la loro tempestiva ripresa
+La Dichiarazione di Applicabilità equivale a quale documento della qualità
+al Manuale
+Cos’è il miglioramento continuo in ISO 27001?
+migliorare continuamente l'idoneità, l'adeguatezza e l'efficacia del loro ISMS
+Per quale motivo fallisce più facilmente l'applicazione della ISO 27001?
+Per mancanza di supporto gestionale
+Qualè lo scopo della politica ISMS?
+fare in modo che il management definisca ciò che viole ottenere e come controllarlo
+Export(11)
+Qual è l'atteggiamento giusto per la sicurezza informatica?:
+non dire "abbiamo sempre fatto in questo modo"
+Qual è un requisito necessario per difendere la sicurezza?:
+la comunicazione aperta tra le squadre
+La gestione del rischio è spesso suddivisa in quattro fasi:
+identificare, valutare, limitare e monitorare
+ISAC sta per:
+Information Sharing and Analysis Centers
+"Caterina sa che un determinato endpoint non ha accesso ad altri endpoint ed
+esegue un'applicazione di terze parti": si tratta di:
+Accettare il rischio
+"Gianni estende il trattamento dei dati della carta di credito a terzi invece di
+conservare i dati sul sito": si tratta di:
+Trasferire il rischio
+"Davide decide che l'archiviazione dei codici fiscali dei clienti è un processo
+non necessario e interrompe la pratica": si tratta di:
+Evitare il rischio
+Gli obiettivi intermedi possono essere suddivisi in quattro spezzoni o fasi:
+Fase 1, vittorie veloci, Fase 2, entro l’anno Fase 3, l’anno
+prossimo, Fase 4, a lungo termine
+"L'estrazione della cache ARP:
+fornirà un elenco di indirizzi IP e MAC collegati alla rete
+PowerShell è uno strumento:
+molto versatile e potente in ambiente Windows
+Esistono molti pacchetti software che:
+oltre a fornire un'interfaccia Web per le normative, incorporano anche
+revisioni, controlli di revisione e processi di approvazione
+Gli standard definiscono:
+il “come” di una normativa da un punto di vista tecnologico senza
+particolari dettagli procedurali
+il linguaggio utilizzato nella documentazione relativa agli standard:
+dovrebbe essere abbastanza semplice, chiaro e utilizzare parole come
+“dovranno” e “devono”.
+La documentazione per standard e procedure dovrebbe contenere alcuni punti
+chiave:
+Controllo di revisione, Titolare\Validatore, Scopo, Campo di
+applicazione, Dichiarazioni Direttive, Documenti correlati.
+Secondo il Verizon Data Breach Investigations Report 2015:
+il phishing è ancora un mezzo di attacco comune
+Il concetto di Curva della dimenticanza di Ebbinghaus fa riferimento:
+al fenomeno per cui gli utenti finali non applicano come dovrebbero
+nelle loro attività lavorative quotidiane ciò che hanno imparato durante i
+corsi
+è necessario appoggiare sempre il puntatore del mouse:
+Export(11)
+sui collegamenti nell'e-mail prima di fare clic. per verificarne il
+percorso
+Un anno come obiettivo per ridurre le cancellazioni di malware dai desktop:
+può non essere sufficiente
+Lo shock dell'incidente:
+farà riflettere i dipendenti quando appariranno in futuro delle e-mail
+che potrebbero sembrare un po 'strane e fuori posto
+La Ludicizzazione è:
+applicare i principi del gioco a una situazione
+Il primo punto di riferimento post incidente, come per qualsiasi tipo di
+problema operativo, è:
+l'umile file di registro
+SIEM sta per:
+Security Information and Event Management
+GLBA sta per:
+Gramm-Leach-Bliley Act of 1999
+GLBA è:
+è una legge emanata nel 1999 per correggere e
+modernizzare le norme che interessano le istituzioni finanziarie
+FERPA è:
+una legge federale americana che protegge la privacy dei registri
+scolastici degli studenti sia nelle scuole pubbliche e private, sia nelle
+università
+FERPA sta per:
+Family Educational Rights and Privacy Act
+SOX sta per:
+Sarbanes-Oxley Act
+SOX è:
+una legge emanata nel 2002 per esporre i requisiti di
+sicurezza per tutte le pubbliche amministrazioni, commissioni e società di
+contabilità degli Stati Uniti
+CCM è:
+un framework creato appositamente da CSA (Cloud Security
+Alliance) pensando alla sicurezza nel cloud
+CCM sta per:
+Cloud Control Matrix
+ISO-27002:
+Stabilisce linee guida e principi generali per avviare,
+implementare, mantenere e migliorare la gestione della sicurezza delle
+informazioni all’interno di un’organizzazione
+ISO-27006:
+Requisiti per gli enti che si occupano di revisione e
+certificazione dei sistemi di gestione della sicurezza delle informazioni.
+ISO-27005:
+Fornisce linee guida per la gestione del rischio di
+sicurezza delle informazioni (ISRM) in un’organizzazione.
+Export(11)
+MS-08-067 è:
+un semplice bug che consente l'esecuzione di codice
+remoto
+FSMO sta per:
+Flexible Single Master Operation
+I ruoli di FSMO:
+sono i sette ruoli speciali che possono essere configurati
+come controller di dominio in Microsoft Technet
+FSMO sta per:
+Flexible Single Master Operation
+Gli oggetti Criteri di gruppo NIST:
+contengono impostazioni quali i requisiti standard per la
+protezione della password, la disabilitazione degli hash LM per le password
+degli account di dominio, la disabilitazione dell'account guest locale e la
+disabilitazione delle credenziali utente nella cache, nonché centinaia di altre
+impostazioni per utenti e computer
+Enhanced Mitigation Experience Toolkit è:
+un'utilità che aiuta a prevenire lo sfruttamento delle
+vulnerabilità del software
+EMET sta per:
+Enhanced Mitigation Experience Toolkit
+Il comando EMET_Conf.exe &ndash;export EMET_Endpoint_Profile.xml serve per:
+esportare il modello
+l'opzione --import con EMET serve per:
+per importare il file XML
+Il comando update: $ sudo apt-get update si usa in:
+Debian Unix
+I client MacOS possono essere aggiornati centralmente utilizzando:
+Software Update Service
+L'uso del comando kill:
+interrompe solo il servizio attualmente in esecuzione, che si
+riattiverà nuovamente al riavvio del sistema
+Windows include uno strumento chiamato:
+BitLocker, che si trova in Pannello di controllo / Sistema
+e Sicurezza / Crittografia unità Bitlocker
+FileVault è uno strumento:
+simile a BitLocker ma in OSX
+quando lo schermo dell'host è bloccato o in modalit&agrave; di sospensione:
+il computer non è al sicuro da un aggressore fisico
+Ai fini della sicurezza, vanno presi in considerazione:
+tutti gli endpoint, anche altri dispositivi come stampanti e
+condizionatori d'aria, ventole e condizionatori d'aria, stampanti, etc.
+Export(11)
+Le apparecchiature SCADA:
+devono essere trattate come qualsiasi altra parte della rete:
+documentate, protette e testate come misura precauzionale
+8 caratteri tutti in minuscolo, corrispondono a:
+26^8 combinazioni
+8 caratteri maiuscoli e minuscoli , corrispondono a:
+52^8 combinazioni
+Una frase segreta composta da 10 caratteri in maiuscolo, minuscolo, numeri e
+simboli corrisponde a:
+94 ^ 10 combinazioni. Può essere violata in circa 600 anni
+Il riutilizzo della password è un problema comune che pu&ograve; essere risolto:
+utilizzando un gestore password
+Qual è il problema dell'autenticazione a due fattori?:
+se diamo risposte veritiere, un hacker che ci conosce le violerà
+subito
+Usiamo il gestore di password per?:
+salvare risposte incongrue logicamente ma imprevedibili per
+l'hacker
+Se utilizzo ROT13 per crittografare, la frase "Cvrgeb r Cnbyb fbab qhr fnagv"
+vorr&agrave; dire:
+Pietro e Paolo sono due santi
+Se utilizzo ROT13 per crittografare, la frase "La Juventus non incontra i miei
+gusti" verr&agrave; tradotta:
+Yn Whiraghf aba vapbagen v zvrv thfgv
+Il salting funziona:
+aggiungendo un ulteriore valore segreto all'input
+Bcrypt:
+è un algoritmo di hash che per impostazione predefinita include
+l'uso di valori di salting univoci per ciascun hash
+Il firmware:
+è vulnerabile come gli altri software
+Per installare un firmware:
+tutte le altre seguenti\precedenti risposte sono vere
+Per scansionare tutte le porte TCP con nmap, usare il comando:
+nmap -sT -p1-65535 10.0.10.1/32-sT
+Se ottengo un output di nmap come questo L'host è attivo (latenza di 0.00043s).
+Non mostrato: 1021 porte chiuse SERVIZIO STATO PORT 23 / tcp open telnet 80 /
+tcp open http 443 / tcp open https:
+vuol dire che le porte 23, 80 e 443 sono aperte
+L'uso pi&ugrave; comune di SNMP è:
+la raccolta di dati di telemetria come quelli relativi
+all'utilizzo della larghezza di banda, all'utilizzo della CPU, al consumo di
+memoria
+Export(11)
+DDoS amplificato:
+È una tecnica con cui un attaccante che intende
+attaccare l'host X troverà un host Y che userà come amplificatore
+Gli host Ramparts:
+sono server specificamente rinforzati situati su una rete per
+fungere da punto di accesso singolo a quella rete
+EIGRP sta per:
+Enhanced Internal Gateway Routing Protocol
+Le VLAN possono essere utilizzate per:
+impedire a un utente malintenzionato di accedere a una rete
+disconnettendo un dispositivo legittimo e collegando invece un dispositivo
+dannoso
+802.1X è:
+È uno standard per l'autenticazione a livello di porta
+SDN sta per:
+Software Defined Network
+Rispetto ai ruoli nella gestione delle responsabilit&agrave;:
+nessun individuo dovrebbe avere un accesso eccessivo al sistema
+che gli consente di eseguire azioni in tutto l'ambiente senza divisione dei poteri
+è una buona idea:
+Avere un endpoint separato per le attività
+amministrative
+è una buona idea:
+Avere in generale ruoli separati per i server
+Tra le cause di attacco abbiamo:
+tutte le precedenti o seguenti
+Le scansioni delle vulnerabilit&agrave;:
+possono essere autenticate o non autenticate
+perch&eacute; esiste anche un'opzione per utilizzare scansioni non autenticate?:
+perché possono fornire informazioni su ciò che un
+attaccante potrebbe ottenere
+l'esercizio della gestione delle vulnerabilit&agrave; come un normale processo
+di amministrazione:
+si basa su un approccio sistematico
+CVSS sta per:
+Common Vulnerability Scoring System
+CVSS è un:
+metodo per calcolare la gravità
+La squadra viola è:
+la squadra formata da professionisti della difesa che
+apprendono e praticano tecniche offensive
+OSINT sta per:
+Open Source Intelligence
+OSINT è:
+Export(11)
+La disciplina che riguarda le informazioni prodotte da fonti
+disponibili al pubblico
+Portare immondizia e materiali riciclabili all'esterno dell'azienda:
+introduce la minaccia che qualsiasi passante possa
+rovistare nei cassonetti o nei contenitori per il riciclaggio
+Aggiungere al pannello contatti un indirizzo di posta elettronico con testo
+bianco su sfondo bianco:
+serve a far prelevare quell'indirizzo, non utilizzato
+veramente, ai bot che raschiano indirizzi per il phishing
+cercando inurl: wpconfig -intext: wp-config "DB_PASSWORD"
+(https://www.exploit-db.com/ghdb/4181/):
+si otterrà un risultato con molte password del database
+Wordpress
+Maltego:
+sbagliato ti consente di eliminare le informazioni pubblicate su
+Internet:
+sbagliato ti consente di aumentare le informazioni pubblicate su
+Internet:
+sbagliato ti consente di ignorare le informazioni pubblicate su
+Internet:
+ti consente di aggregare le informazioni pubblicate su
+Internet:
+Recon-ng è:
+è un framework di ricognizione web completo scritto in Python
+In Recon-ng il modulo interesting_files:
+può essere caricato per scansionare le ubicazioni di file
+potenzialmente sensibili e tentare di trovare una corrispondenza
+theharvester.py ha l'iobiettivo:
+di raccogliere indirizzi e-mail, sottodomini, host, nomi dei
+dipendenti, porte aperte e banner da varie fonti pubbliche come motori di
+ricerca, server di chiavi PGP e database di computer
+Rawr sta per:
+Rapid Assessment of Web Resources
+Rawr serve a:
+scansionare una rete e ottenere un rapporto e le immagini
+di tutte le pagine Web ascoltate
+Le tecnologie IDS e IPS basate sulla rete:
+analizzano i dati quando vengono trasmessi attraverso la rete e
+non hanno accesso ai dati situati sugli endpoint
+FingerprinTLS:
+può essere utilizzato per determinare quale client ha avviato
+una connessione crittografata
+Il log è:
+un registro in gergo tecnico
+Per conservare i registri:
+Windows utilizza il Visualizzatore eventi mentre le
+piattaforme Unix di solito si basano sulla directory / VAR / LOG
+Export(11)
+I sistemi di autenticazione:
+sono un ovvio punto di partenza per l'analisi
+Se lo stesso utente ha tentato una connessione non riuscita su ciascuno dei 350
+host in 2 minuti:
+siamo, probabilmente, in presenza di una attività
+sospetta
+I dati rubati da una talpa interna:
+sono uno degli attacchi più difficili e avanzati da rilevare
+HELO mx.batsareawesome.com è:
+Un esempio di saluto del server di posta
+Se viene trovata la firma:
+è probabile che il programma sia infetto
+Imballaggio:
+è una strategia utilizzata dagli autori di malware per mascherare il
+significato del loro software dannoso nel tentativo di ingannare l'analisi basata
+sulla firma
+Crittografia è:
+sbagliato è una strategia utilizzata dagli autori di malware per
+è una strategia utilizzata dagli autori di malware per eseguire la
+codifica semplice mentre altri utilizzano la crittografia complessa o le
+istruzioni per il download da un host remoto.
+Ci sono molte pi&ugrave; sfide nell'analisi del codice:
+binario rispetto all'analisi del codice sorgente
+gli algoritmi di hash fuzzy sono:
+noti anche come digest di similitudine
+REDEBUG:
+impiega l'hash delle funzionalità per codificare n-token in un vettore bit
+Il primo algoritmo di isomorfismo grafico adatto a piccoli grafici è stato
+proposto nel:
+1976
+In BINASH:
+ogni funzione è rappresentata utilizzando una serie di funzioni definite
+come input e output di un blocco di base
+IDA PRO è:
+un disassemblatore e debugger multiprocessore ospitato su
+Windows, Linux e Mac OS X
+OBJDUMP:
+fa parte delle GNU Binutils per un controllo
+approfondito su eseguibili e altri dati binari
+PARADYN:
+è uno strumento utilizzato per analizzare e convertire il
+codice binario
+OLLYDBG:
+è un debugger di analisi a livello di assembly a 32 bit
+per Microsoft Windows
+Export(11)
+2agina p
+JAKSTAB:
+rappresenta un disassemblaggio basatosull'interpretazione astratta e un
+quadro di analisi statica che consente di analizzare eseguibili e recuperare
+grafici di flusso di controllo affidabili
+L'algoritmo di clustering:
+genera cluster di programmi basati su distanze relative in uno
+spazio d-dimensionale
+In genere, i file binari vengono convertiti in file di assieme:
+utilizzando un disassemblatore
+TRIGRESS viene utilizzato per offuscare il codice sorgente utilizzando
+i seguenti metodi:
+Virtualizzazione, Jitting, dynamic
+BITBLAZE viene utilizzato per offuscare il codice sorgente utilizzando
+i seguenti metodi:
+rappresenta una piattaforma di analisi binaria in grado di
+estrarre automaticamente proprietà relative alla sicurezza dal codice binario
+per una difesa efficace
+BAP è:
+una piattaforma disponibile pubblicamente per eseguire la
+verifica e l'analisi del programma su codice binario
+IBINHUNT è:
+una nuova tecnica di diffing binario in grado di far fronte
+all'offuscamento di funzioni mirato a strumenti di diff binario che
+confrontano i flussi di controllo intra-procedurali
+BINJUICE è:
+uno strumento per estrarre il "succo" di un binario in cui il
+termine "succo" indica l'astrazione della semantica dei blocchi di un binario
+BINGRAPH è:
+un nuovo meccanismo che consente di scoprire con
+precisione malware metamorfico
+MALHEUR è:
+è uno strumento per l'analisi automatica del malware
+Il processo di livello 1 ha come obiettivi primari:
+La costruzione del profilo di trasformazione del
+compilatore (CTP) e l'assegnazione di tag del compilatore (CT)
+L'abbreviazione SRC indica:
+il codice sorgente originale
+Il fingerprinting delle funzioni:
+dipende dai confronti di somiglianza a coppie per le
+funzioni di assemblaggio
+L'obiettivo del livello 3:
+è rilevare proprietà del compilatore più raffinate, come il
+livello di ottimizzazione e la versione
+Export(11)
+2agina p

@@ -176,21 +176,37 @@ async function getProgress(page_1){
 }
 
 
+function getTotalSeconds(time){
+    return (time[1][0] * 60) + time[1][1]
+}
+function getCurrentSeconds(time){
+    return (time[0][0] * 60) + time[0][1]
+}
+
 async function fiddleWithSlide(page_1){
     var doFiddle = true
-    while(doFiddle) {
-        await timer(13 * 1000)
+    await timer(5 * 1000)
         var {number, time} = await getProgress(page_1)
+    var fiddleIntervarl = getTotalSeconds(time) / 11
+
+    while(doFiddle) {
+        await timer(fiddleIntervarl * 1000)
+        var {number, time} = await getProgress(page_1)
+        fiddleIntervarl = getTotalSeconds(time) / 11
         var isLastSlide = number[0] == number[1]
         var isTimeOver = time[0][0] == time[1][0] && time[0][1] == time[1][1]
-        if(isTimeOver)
+        var position = getCurrentSeconds(time) + (fiddleIntervarl / 5)
+        var targetPosition = fiddleIntervarl * 10
+
+        // if(isTimeOver)
+        if(position >= targetPosition)
             await writeSlideText(page_1, number)
         await clickPause(page_1)
         await timer(0.3 * 1000)
         await clickPlay(page_1)
 
 
-        console.log(number, time)
+        console.log(number, time, position + " / " + targetPosition)
 
         if(isLastSlide && isTimeOver){
             doFiddle = false
@@ -335,8 +351,10 @@ async function play(){
                 var isInSlideFrame = await page_1.$eval('#elearning-player-dialog', elem => elem.style.display != 'none')
                 // var isBlockedOnTest = await page_1.evaluate(() => $('#divImageEsitoRisultatoTest').get(0) != undefined)
                
+                var MainFrame = await getMainFrame(page_1)
+                var divDomanda = await MainFrame.$('#domanda')
                 //TODO continua da qui
-                if(isInSlideFrame) {
+                if(divDomanda == undefined) {
                     // await timer(2 * 1000)
         
                     // await page_1.waitForSelector('.ps-current ul li img')
@@ -388,18 +406,45 @@ async function play(){
                     await clickContinueSlide(page_1)
                     await fiddleWithSlide(page_1)
                 }
-                if(isInTestPage) {
+                // if(isInTestPage) {
+                else {
                     var testConcluso = false
+                    var testoRisposte = String(fs.readFileSync('./risposte.txt'))
+                    testoRisposte = testoRisposte.replace(/\n/g,'').replace(/\t/g,'').replace(/\r/g,'').replace(/ /g,'')
                     while(!testConcluso){
                         await timer(1 * 1000)
-                        var correctAnswerIndex = await page_1.$$eval('#divContainerAnswersTest tbody .yui-dt2-col-isCorretta',
-                            elems => elems.findIndex(elem => elem.innerText == 1)
+                        var progressoDomande = await MainFrame.$eval('.numDomanda', elem => elem.textContent
+                            .replace('Domanda','').replaceAll(' ','').replaceAll(':','')
+                            .split('di').map(x => parseInt(x))
                         )
-                        var checkBoxes = await page_1.$$('#divContainerAnswersTest tbody input')
-                        await checkBoxes[correctAnswerIndex].click()
-                        await page_1.click('#idDivContainerButtonAnswersTest-button')
-                        await timer(1 * 1000)
-                        testConcluso = await page_1.$eval('#testPlayer', elem => elem.style.display == 'none')
+                        console.log('Progresso test: ' + progressoDomande[0] + '/' + progressoDomande[1])
+
+                        var risposte = await MainFrame.$$('label.list-group-item.list-group-item-action')
+
+                        await risposte.asyncForEach(async function(risposta){
+                            var testoRisposta = await risposta.evaluate(x => x.textContent.replaceAll('\n','').replaceAll('\t','').replaceAll(' ',''))
+                            if(testoRisposte.includes(testoRisposta)){
+                                var input = await risposta.$('label.list-group-item.list-group-item-action input')
+                                await input.click()
+                            }
+                        })
+                        var avanti = await divDomanda.$('button')
+                        await avanti.click()
+
+
+                        if(progressoDomande[0] >= progressoDomande[1]){
+                            await MainFrame.click('.action-chiudiPlayer')
+                            testConcluso = true
+                        }
+
+                        // var correctAnswerIndex = await page_1.$$eval('#divContainerAnswersTest tbody .yui-dt2-col-isCorretta',
+                        //     elems => elems.findIndex(elem => elem.innerText == 1)
+                        // )
+                        // var checkBoxes = await page_1.$$('#divContainerAnswersTest tbody input')
+                        // await checkBoxes[correctAnswerIndex].click()
+                        // await page_1.click('#idDivContainerButtonAnswersTest-button')
+                        // await timer(1 * 1000)
+                        // testConcluso = await page_1.$eval('#testPlayer', elem => elem.style.display == 'none')
                     }
                     console.log('Test concluso')
                 }
