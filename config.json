@@ -1,5 +1,9 @@
 {
-    "username":"",
-    "password":"",
-    "chromePath":""
+    "username": "",
+    "password": "",
+    "chromePath": "",
+    "createImages": true,
+    "headless": false,
+    "overrideImages": false,
+    "domain": ""
 }

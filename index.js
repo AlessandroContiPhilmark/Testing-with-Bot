@@ -4,13 +4,16 @@ const { get } = require('http');
 
 
 var progress = {
-    slideIndex, createImages,
-    folderIndex, overrideImages,
-    headless, corso
+    slideIndex,
+    folderIndex,
+    corso
 } = JSON.parse(fs.readFileSync('./progress.json'));
 console.log('Progress: ', progress);
 
-var {username, password, chromePath} = JSON.parse(fs.readFileSync('./config.json'))
+var {
+    username, password, chromePath, domain,
+    createImages, overrideImages, headless
+} = JSON.parse(fs.readFileSync('./config.json'))
 
 const puppeteer = require('puppeteer');
 const timer = ms => new Promise(res => setTimeout(res, ms));
@@ -40,7 +43,7 @@ const puppeteerConfig = {
 };
 
 
-const domain = 'https://fingeco4.piattaformafad.com/';
+// const domain = 'https://fingeco4.piattaformafad.com/';
 
 var dialogPromise
 async function login(page_1){
@@ -183,10 +186,10 @@ function getCurrentSeconds(time){
     return (time[0][0] * 60) + time[0][1]
 }
 
-async function fiddleWithSlide(page_1){
+async function fiddleWithSlide(page_1, folderPath){
     var doFiddle = true
     await timer(5 * 1000)
-        var {number, time} = await getProgress(page_1)
+    var {number, time} = await getProgress(page_1)
     var fiddleIntervarl = getTotalSeconds(time) / 11
 
     while(doFiddle) {
@@ -199,8 +202,10 @@ async function fiddleWithSlide(page_1){
         var targetPosition = fiddleIntervarl * 10
 
         // if(isTimeOver)
-        if(position >= targetPosition)
+        if(position >= targetPosition){
             await writeSlideText(page_1, number)
+            await screenshot(page_1, number, folderPath)
+        }
         await clickPause(page_1)
         await timer(0.3 * 1000)
         await clickPlay(page_1)
@@ -279,6 +284,14 @@ async function writeSlideText(page_1, number){
         return testo
     })
     fs.writeFileSync(slidesTxtFile, slidesTxt)
+}
+
+async function screenshot(page_1, number, folderPath){
+    let path = folderPath + "/slide_" + number[0] + ".png"
+    if(overrideImages || !fs.existsSync(path)){
+        await page_1.screenshot({ path })
+        console.log('Created: ' + path)
+    } else console.log('Already existing: ' + path)
 }
 
 
@@ -404,7 +417,7 @@ async function play(){
                     */
                     await timer(3 * 1000)
                     await clickContinueSlide(page_1)
-                    await fiddleWithSlide(page_1)
+                    await fiddleWithSlide(page_1, folderPath)
                 }
                 // if(isInTestPage) {
                 else {

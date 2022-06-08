@@ -1,8 +1,5 @@
 {
     "corso": 0,
-    "headless": false,
-    "overrideImages": false,
-    "createImages": true,
     "folderIndex": 0,
     "slideIndex": 0,
     "corsoConcluded": false
