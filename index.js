@@ -93,7 +93,26 @@ async function getPlayPauseButton(page_1){
 }
 
 async function clickContinueSlide(page_1){
-    await page_1.mouse.click(700, 340, {button: 'left'})  
+    var innerFrame = await getInnerFrame(page_1)
+    var button = await innerFrame.$('.message-box-buttons-panel__window-button')
+
+    var mainFrame = await getMainFrameHandle(page_1)
+    innerFrame = await getInnerFrameHandle(page_1)
+
+    var buttonX =
+        await mainFrame.evaluate(elem => elem.getBoundingClientRect().x) +
+        await innerFrame.evaluate(elem => elem.getBoundingClientRect().x) +
+        await button.evaluate(elem => elem.getBoundingClientRect().x) +
+        await button.evaluate(elem => elem.getBoundingClientRect().width / 2)
+    var buttonY =
+        await mainFrame.evaluate(elem => elem.getBoundingClientRect().y) +
+        await innerFrame.evaluate(elem => elem.getBoundingClientRect().y) +
+        await button.evaluate(elem => elem.getBoundingClientRect().y) +
+        await button.evaluate(elem => elem.getBoundingClientRect().height / 2)
+
+    await page_1.mouse.click(buttonX, buttonY, {button: 'left'}) 
+    // await page_1.mouse.click(700, 340, {button: 'left'})  
+
 }
 async function clickPlay(page_1){
     // var mainFrame = document.querySelector('#scormPlayer')
@@ -297,6 +316,32 @@ async function screenshot(page_1, number, folderPath){
 
 
 
+function getDateString() {
+    let today = new Date()
+    let day = today.getDate()
+    let month = today.getMonth() + 1
+    let year = today.getFullYear()
+    let hour = today.getHours()
+    let minutes = today.getMinutes()
+    let result = `${year}-${month}-${day} ${hour}-${minutes}`
+    return result
+}
+
+function writeLogFile(errorMessage) {
+    let errorFolder = './errors'
+    if(!fs.existsSync(errorFolder))
+        fs.mkdirSync(errorFolder);
+    let fileName = `${errorFolder}/Error ${getDateString()}.log`
+    let fileContent = ''
+    if (fs.existsSync(fileName))
+        fileContent = fs.readFileSync(fileName)
+    fileContent = `${fileContent}${errorMessage}`
+
+    fs.writeFileSync(fileName, fileContent)
+}
+
+
+
 async function play(){
     var browser
     try {
@@ -482,7 +527,9 @@ async function play(){
             }
         }        
     } catch (error) {
-        console.log('Error occurred: ' + error)
+        let errorMessage = `\nError ${getDateString()}\nError occurred: ${error}\nError stack: ${error.stack}\n`
+        console.log(errorMessage)
+        writeLogFile(errorMessage)
         await timer(1 * 1000)
         try { await browser.close(); } catch (error) {
             console.log('Error while closing browser ' + error)
