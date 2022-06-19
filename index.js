@@ -205,7 +205,7 @@ function getCurrentSeconds(time){
     return (time[0][0] * 60) + time[0][1]
 }
 
-async function fiddleWithSlide(page_1, folderPath){
+async function fiddleWithSlide(page_1, folderPath, slideName){
     var doFiddle = true
     await timer(5 * 1000)
     var {number, time} = await getProgress(page_1)
@@ -222,7 +222,7 @@ async function fiddleWithSlide(page_1, folderPath){
 
         // if(isTimeOver)
         if(position >= targetPosition){
-            await writeSlideText(page_1, number)
+            await writeSlideText(page_1, number, slideName)
             await screenshot(page_1, number, folderPath)
         }
         await clickPause(page_1)
@@ -288,25 +288,34 @@ async function getSlides(page_1, folderIndex){
 }
 
 
-async function writeSlideText(page_1, number){
-    var slidesTxtFile = './Slides txt content/slides.txt'
-    var slidesTxt = fs.readFileSync(slidesTxtFile)
+async function writeSlideText(page_1, number, slideName){
+    let folder = `./Slides txt content`
 
-    var innerFrame = await getInnerFrame(page_1)
-
-
+    if (!fs.existsSync(folder))
+        fs.mkdirSync(folder)
+    let slidesTxtFile = `${folder}/${slideName}.txt`
+    let slidesTxt = ''
+    
+    if (fs.existsSync(slidesTxtFile))
+        slidesTxt = fs.readFileSync(slidesTxtFile)
     slidesTxt += '\n'+number[0]+'/'+number[1]
 
-    slidesTxt += await innerFrame.$$eval('#playerView .kern.slide span', elements => {
-        var testo = '\n'
-        elements.forEach(x => {testo += '\n' + x.textContent})
+    let innerFrame = await getInnerFrame(page_1)
+    let slideTxt = await innerFrame.$$eval('#playerView .kern.slide span', elements => {
+        let testo = '\n'
+        elements.forEach(x => {testo += `${x.textContent} `})
+        testo = testo.replaceAll(/\n+/g, ' ')
+        testo = testo.replaceAll(/\s+/g, ' ')
+        testo = testo.replaceAll(/\.\s*/g, '.\n')
         return testo
     })
+    slidesTxt += slideTxt
     fs.writeFileSync(slidesTxtFile, slidesTxt)
 }
 
 async function screenshot(page_1, number, folderPath){
-    let path = folderPath + "/slide_" + number[0] + ".png"
+    let path = `${folderPath}/slide ${number[0]} of ${number[1]}.png`
+    // let path = folderPath + "/slide_" + number[0] + ".png"
     if(overrideImages || !fs.existsSync(path)){
         await page_1.screenshot({ path })
         console.log('Created: ' + path)
@@ -462,7 +471,7 @@ async function play(){
                     */
                     await timer(3 * 1000)
                     await clickContinueSlide(page_1)
-                    await fiddleWithSlide(page_1, folderPath)
+                    await fiddleWithSlide(page_1, folderPath, slideName)
                 }
                 // if(isInTestPage) {
                 else {
