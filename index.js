@@ -92,6 +92,20 @@ async function getPlayPauseButton(page_1){
     return button
 }
 
+async function isInTestQuiz(page_1){
+    let innerFrame = await getInnerFrame(page_1)
+    let result = await innerFrame.$('.quiz-player-skin')
+    result = result != null
+    return result
+}
+
+async function isTestQuizDone(page_1){
+    let innerFrame = await getInnerFrame(page_1)
+    let result = await innerFrame.$('.slide-object-view-icon-placeholder_type_passed')
+    result = result != null
+    return result
+}
+
 async function clickContinueSlide(page_1){
     var innerFrame = await getInnerFrame(page_1)
     var button = await innerFrame.$('.message-box-buttons-panel__window-button')
@@ -421,7 +435,7 @@ async function play(){
                 var MainFrame = await getMainFrame(page_1)
                 var divDomanda = await MainFrame.$('#domanda')
                 //TODO continua da qui
-                if(divDomanda == undefined) {
+                if(!(await isInTestQuiz(page_1))) {
                     // await timer(2 * 1000)
         
                     // await page_1.waitForSelector('.ps-current ul li img')
@@ -475,45 +489,81 @@ async function play(){
                 }
                 // if(isInTestPage) {
                 else {
-                    var testConcluso = false
-                    var testoRisposte = String(fs.readFileSync('./risposte.txt'))
-                    testoRisposte = testoRisposte.replace(/\n/g,'').replace(/\t/g,'').replace(/\r/g,'').replace(/ /g,'')
-                    while(!testConcluso){
-                        await timer(1 * 1000)
-                        var progressoDomande = await MainFrame.$eval('.numDomanda', elem => elem.textContent
-                            .replace('Domanda','').replaceAll(' ','').replaceAll(':','')
-                            .split('di').map(x => parseInt(x))
-                        )
-                        console.log('Progresso test: ' + progressoDomande[0] + '/' + progressoDomande[1])
-
-                        var risposte = await MainFrame.$$('label.list-group-item.list-group-item-action')
-
-                        await risposte.asyncForEach(async function(risposta){
-                            var testoRisposta = await risposta.evaluate(x => x.textContent.replaceAll('\n','').replaceAll('\t','').replaceAll(' ',''))
-                            if(testoRisposte.includes(testoRisposta)){
-                                var input = await risposta.$('label.list-group-item.list-group-item-action input')
-                                await input.click()
-                            }
-                        })
-                        var avanti = await divDomanda.$('button')
-                        await avanti.click()
-
-
-                        if(progressoDomande[0] >= progressoDomande[1]){
-                            await MainFrame.click('.action-chiudiPlayer')
-                            testConcluso = true
-                        }
-
-                        // var correctAnswerIndex = await page_1.$$eval('#divContainerAnswersTest tbody .yui-dt2-col-isCorretta',
-                        //     elems => elems.findIndex(elem => elem.innerText == 1)
-                        // )
-                        // var checkBoxes = await page_1.$$('#divContainerAnswersTest tbody input')
-                        // await checkBoxes[correctAnswerIndex].click()
-                        // await page_1.click('#idDivContainerButtonAnswersTest-button')
-                        // await timer(1 * 1000)
-                        // testConcluso = await page_1.$eval('#testPlayer', elem => elem.style.display == 'none')
+                    while((await isInTestQuiz(page_1)) && !(await isTestQuizDone(page_1))){
+                        await timer(2 * 1000)
                     }
+                    await clickCloseSlide(page_1)
                     console.log('Test concluso')
+                    
+
+
+
+                    // var testConcluso = false
+                    // var testoRisposte = String(fs.readFileSync('./risposte.txt'))
+                    // testoRisposte = testoRisposte.replace(/\n/g,'').replace(/\t/g,'').replace(/\r/g,'').replace(/ /g,'')
+                    // while(!testConcluso){
+                    //     await timer(1 * 1000)
+                    //     // var inputs = document.querySelectorAll('label.list-group-item.list-group-item-action input')
+                    //     // var texts = []
+                    //     // document.querySelectorAll('label.list-group-item.list-group-item-action').forEach(x => 
+                    //     //     texts.push(
+                    //     //         x.textContent.replaceAll('\n','').replaceAll('\t','').replaceAll(' ','')
+                    //     //     )
+                    //     // )
+                    //     // document.querySelectorAll('label.list-group-item.list-group-item-action').forEach(x =>
+                    //     //     console.log(
+                    //     //         x.textContent.replaceAll('\n','').replaceAll('\t','').replaceAll(' ','')
+                    //     //     )
+                    //     // )
+                    //     // texts
+
+
+                    //     // document.querySelector('.numDomanda').textContent
+                    //     // .replace('Domanda','')
+                    //     // .replaceAll(' ','')
+                    //     // .replaceAll(':','')
+                    //     // .split('di')
+                    //     // .map(x => parseInt(x))
+
+
+                    //     var progressoDomande = await MainFrame.$eval('.numDomanda', elem => elem.textContent
+                    //         .replace('Domanda','').replaceAll(' ','').replaceAll(':','')
+                    //         .split('di').map(x => parseInt(x))
+                    //     )
+                    //     console.log('Progresso test: ' + progressoDomande[0] + '/' + progressoDomande[1])
+
+                    //     var domanda = await MainFrame.$eval('.list-group-item-primary', x => x.textContent.replaceAll('\n', '').replaceAll('\t', '').replaceAll(' ', ''))
+
+                    //     var risposte = await MainFrame.$$('label.list-group-item.list-group-item-action')
+
+                    //     await risposte.asyncForEach(async function(risposta){
+                    //         var testoRisposta = await risposta.evaluate(x => x.textContent.replaceAll('\n','').replaceAll('\t','').replaceAll(' ',''))
+                    //         if(testoRisposte.includes(domanda + testoRisposta)){
+                    //             var input = await risposta.$('label.list-group-item.list-group-item-action input')
+                    //             await input.click()
+                    //         }
+                    //     })
+                    //     var avanti = await divDomanda.$('button')
+                    //     await avanti.click()
+
+
+                    //     if(progressoDomande[0] >= progressoDomande[1]){
+                    //         await timer(3 * 1000)
+                    //         var closeButton = await page_1.$('.action-chiudiPlayer')
+                    //         await closeButton.click()
+                    //         testConcluso = true
+                    //     }
+
+                    //     // var correctAnswerIndex = await page_1.$$eval('#divContainerAnswersTest tbody .yui-dt2-col-isCorretta',
+                    //     //     elems => elems.findIndex(elem => elem.innerText == 1)
+                    //     // )
+                    //     // var checkBoxes = await page_1.$$('#divContainerAnswersTest tbody input')
+                    //     // await checkBoxes[correctAnswerIndex].click()
+                    //     // await page_1.click('#idDivContainerButtonAnswersTest-button')
+                    //     // await timer(1 * 1000)
+                    //     // testConcluso = await page_1.$eval('#testPlayer', elem => elem.style.display == 'none')
+                    // }
+                    // console.log('Test concluso')
                 }
                 slideIndex++
                 progress.slideIndex++
