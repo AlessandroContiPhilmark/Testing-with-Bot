@@ -105,6 +105,12 @@ async function isTestQuizDone(page_1){
     result = result != null
     return result
 }
+async function isTestQuizFailed(page_1){
+    let innerFrame = await getInnerFrame(page_1)
+    let result = await innerFrame.$('.slide-object-view-icon-placeholder_type_failed')
+    result = result != null
+    return result
+}
 
 async function clickContinueSlide(page_1){
     var innerFrame = await getInnerFrame(page_1)
@@ -364,6 +370,19 @@ function writeLogFile(errorMessage) {
 }
 
 
+function advanceSlideProgress(slides){
+    slideIndex++
+    progress.slideIndex++
+    if(slideIndex >= slides.length){
+        slideIndex = 0
+        progress.slideIndex = 0
+        doCycleSlides = false
+        folderIndex++
+        progress.folderIndex++
+    }
+    fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4))
+}
+
 
 async function play(){
     var browser
@@ -486,14 +505,28 @@ async function play(){
                     await timer(3 * 1000)
                     await clickContinueSlide(page_1)
                     await fiddleWithSlide(page_1, folderPath, slideName)
+                    advanceSlideProgress(slides)
                 }
                 // if(isInTestPage) {
                 else {
-                    while((await isInTestQuiz(page_1)) && !(await isTestQuizDone(page_1))){
-                        await timer(2 * 1000)
+                    let inTest = await isInTestQuiz(page_1)
+                    let quizDone = await isTestQuizDone(page_1)
+                    let quizFailed = false
+                    while(inTest && !quizDone && !quizFailed){
+                        inTest = await isInTestQuiz(page_1)
+                        quizDone = await isTestQuizDone(page_1)
+                        quizFailed = await isTestQuizFailed(page_1)
+                        await timer(5 * 1000)
+                        console.log("In attesa di completamento test...")
+                    }
+                    if(quizDone){
+                        console.log('Test concluso')
+                        advanceSlideProgress(slides)
+                    }
+                    if(quizFailed){
+                        console.log('Test Fallito')
                     }
                     await clickCloseSlide(page_1)
-                    console.log('Test concluso')
                     
 
 
@@ -565,16 +598,6 @@ async function play(){
                     // }
                     // console.log('Test concluso')
                 }
-                slideIndex++
-                progress.slideIndex++
-                if(slideIndex >= slides.length){
-                    slideIndex = 0
-                    progress.slideIndex = 0
-                    doCycleSlides = false
-                    folderIndex++
-                    progress.folderIndex++
-                }
-                fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4))
             }
             if(folderIndex >= numberOfFolders){
                 doneAllFolders = true
