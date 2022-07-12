@@ -2,5 +2,6 @@
     "corso": 0,
     "folderIndex": 0,
     "slideIndex": 0,
-    "corsoConcluded": false
+    "corsoConcluded": false,
+    "lastWroteSlideText": ""
 }
