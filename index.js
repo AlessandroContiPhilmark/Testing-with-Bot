@@ -3,10 +3,18 @@ const fs = require('fs');
 const { get } = require('http');
 
 
+//Una mappa usata per tenere traccia di quale risposta sia corretta per 
+//questa sezione del quiz, viene memorizzato il numero x di "Domanda x/y"
+//e ci viene salvato il testo della domanda corretta
+//otteniamo da "quizQuestionRecord[x]" una mappa che contiene
+//"risposteSbagliate = [String]" lista delle risposte sbagliate
+//"rispostaCorretta = String" la risposta corretta da cliccare
+let quizQuestionRecord = {}
+
 var progress = {
     slideIndex,
     folderIndex,
-    corso
+    corso, lastWroteSlideText
 } = JSON.parse(fs.readFileSync('./progress.json'));
 console.log('Progress: ', progress);
 
@@ -64,6 +72,14 @@ async function login(page_1){
     await timer(3 * 1000)
 }
 
+function removeFromArr(str, arr){
+    let result = []
+    for(let x of arr){
+        if(str != x)
+            result.push(x)
+    }
+    return result
+}
 
 async function getMainFrameHandle(page_1){
     await page_1.waitForSelector('#elearning-player-dialog')
@@ -108,6 +124,12 @@ async function isTestQuizDone(page_1){
 async function isTestQuizFailed(page_1){
     let innerFrame = await getInnerFrame(page_1)
     let result = await innerFrame.$('.slide-object-view-icon-placeholder_type_failed')
+    result = result != null
+    return result
+}
+async function clickedCorrectAnswer(page_1){
+    let innerFrame = await getInnerFrame(page_1)
+    let result = await innerFrame.$('.quiz-feedback-panel__header_correct')
     result = result != null
     return result
 }
@@ -308,6 +330,46 @@ async function getSlides(page_1, folderIndex){
 }
 
 
+function countQuestionMatches(risposta, testo){
+    testo = testo.toString()
+    let notCharOrOperation = /[^A-Za-zÀÁÈÉÌÍÒÓÙÚàáèéìíòóùú0-9+\-\\\/*()]+/
+    let specialCharReg = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/
+    let isSingleChar = /^[A-Za-zÀÁÈÉÌÍÒÓÙÚàáèéìíòóùú]{1}$/
+    //let risposta = "d     sad&££(89324.32342asd.dasdas"
+    let regNoChar = "([^A-Za-zÀÁÈÉÌÍÒÓÙÚàáèéìíòóùú0-9]{1})"
+    let spaces = /^\s*$/
+    
+    let splitReg = new RegExp(regNoChar,'g')
+    
+    let array = risposta.split(splitReg)
+    let builtReg = ''
+    let index = 0
+    for(let x of array){
+        index ++
+        if(!notCharOrOperation.test(x) && !spaces.test(x))
+        // if(!notCharOrOperation.test(x) && !spaces.test(x) && !isSingleChar.test(x))
+        // if(!/[^A-Za-zÀÁÈÉÌÍÒÓÙÚàáèéìíòóùú0-9]+/g.test(x) && !/^\s*$/.test(x))
+        //if(!/^\s*$/.test(x))
+            builtReg += `(${specialCharReg.test(x) ? '\\':''}${x})+${index < array.length ? '.*':''}`
+    }
+    
+    console.log(builtReg)
+    //new RegExp(builtReg).test("d     sad& ££(8 9324.32342asd.dasdas")
+    let result = testo.match(new RegExp(builtReg,'g'))
+    return result != null ? result.length : 0 
+}
+
+async function questionProgress(page_1){
+    let innerFrame = await getInnerFrame(page_1)
+    return await innerFrame.$eval('.quiz-top-panel__question-score-info', elem => {
+        let questionNumber = parseInt(elem.textContent.split(' ')[1])
+        let questionTotal = parseInt(elem.textContent.split(' ')[3])
+        return {questionNumber, questionTotal}
+    })
+}
+
+
+
 async function writeSlideText(page_1, number, slideName){
     let folder = `./Slides txt content`
 
@@ -331,6 +393,12 @@ async function writeSlideText(page_1, number, slideName){
     })
     slidesTxt += slideTxt
     fs.writeFileSync(slidesTxtFile, slidesTxt)
+
+
+
+    lastWroteSlideText = slidesTxtFile
+    progress.lastWroteSlideText = lastWroteSlideText
+    fs.writeFileSync('./progress.json', JSON.stringify(progress, null, 4))
 }
 
 async function screenshot(page_1, number, folderPath){
@@ -509,24 +577,322 @@ async function play(){
                 }
                 // if(isInTestPage) {
                 else {
+                    await timer(3 * 1000)
+                    
+                    
+                    async function clickContinueQuiz(page_1){
+                        var innerFrame = await getInnerFrame(page_1)
+                        var button = await innerFrame.$('.window-button.window-button_cancel')
+
+                        var mainFrame = await getMainFrameHandle(page_1)
+                        innerFrame = await getInnerFrameHandle(page_1)
+
+                        var buttonX =
+                            await mainFrame.evaluate(elem => elem.getBoundingClientRect().x) +
+                            await innerFrame.evaluate(elem => elem.getBoundingClientRect().x) +
+                            await button.evaluate(elem => elem.getBoundingClientRect().x) +
+                            await button.evaluate(elem => elem.getBoundingClientRect().width / 2)
+                        var buttonY =
+                            await mainFrame.evaluate(elem => elem.getBoundingClientRect().y) +
+                            await innerFrame.evaluate(elem => elem.getBoundingClientRect().y) +
+                            await button.evaluate(elem => elem.getBoundingClientRect().y) +
+                            await button.evaluate(elem => elem.getBoundingClientRect().height / 2)
+
+                        await page_1.mouse.click(buttonX, buttonY, {button: 'left'}) 
+                        // await page_1.mouse.click(700, 340, {button: 'left'})  
+
+                    }
+                    await clickContinueQuiz(page_1)
+                    
+                    //Test
+                    // let testFrame = await getInnerFrameHandle(page_1)
+                    // let correctAnswerText = await testFrame.evaluate(elem => {
+                    //     console.log(elem)
+                    //     console.log(elem.contentDocument)
+                    //     console.log(elem.querySelector)
+                    //     console.log(elem.contentDocument.querySelector)
+                    //     console.log(elem.querySelector('input[aria-checked="true"]'))
+                    //     console.log(elem.contentDocument.querySelector('input[aria-checked="true"]'))
+                    //     var xTest = elem
+                    //     // return elem.querySelector('input[aria-checked="true"]').parentElement.parentElement.querySelector('.choice-content').textContent
+                    // })
+
+                    async function clickAnswerText(text){
+                        let innerFrame = await getInnerFrame(page_1)
+
+                        let map = {}
+                        let questions = await innerFrame.$$('.choice-view')
+                        for(let x of questions){
+                            let txt = await x.evaluate(x=> x.textContent)
+                            map[txt] = await x.$('* > div')
+                        }
+                        if(map[text] != null)
+                            await clickIframeChild(map[text])
+                        else console.log(`No question found to click: ${text}`)
+
+                    }
+
+                    async function getAllAnswers(){
+                        let innerFrameHandle = await getInnerFrameHandle(page_1)
+                        let questions = await innerFrameHandle.evaluate(elem => {
+                            let result = []
+                            for(let x of elem.contentDocument.querySelectorAll('.choice-view')){
+                                result.push(x.textContent)
+                            }
+                            return result
+                        })
+                        return questions
+                    }
+                    // let questionsText = await getAllAnswers()
+                    // await clickAnswerText(questionsText[1])
+                    // await clickAnswerText('sada')
+
+
+                    // let correctAnswers = []
+                    // let innerFrame = await getInnerFrame(page_1)
+                    // let questions = await innerFrame.$$('.choice-view')
+
+                    // async function clickAnswer(question){
+                    //     question = await question.$('.choice-view > div')
+                    //     await clickIframeChild(question)
+                    // }
+
+
+                    async function clickIframeChild(child){
+                        var mainFrame = await getMainFrameHandle(page_1)
+                        var innerFrame = await getInnerFrameHandle(page_1)
+
+                        var questionX =
+                            await mainFrame.evaluate(elem => elem.getBoundingClientRect().x) +
+                            await innerFrame.evaluate(elem => elem.getBoundingClientRect().x) +
+                            await child.evaluate(elem => elem.getBoundingClientRect().x) +
+                            await child.evaluate(elem => elem.getBoundingClientRect().width / 2)
+                        var questionY =
+                            await mainFrame.evaluate(elem => elem.getBoundingClientRect().y) +
+                            await innerFrame.evaluate(elem => elem.getBoundingClientRect().y) +
+                            await child.evaluate(elem => elem.getBoundingClientRect().y) +
+                            await child.evaluate(elem => elem.getBoundingClientRect().height / 2)
+                        await page_1.mouse.click(questionX, questionY, {button: 'left'}) 
+                    }
+                    async function clickInviaQuiz(){
+                        let innerFrame = await getInnerFrame(page_1)
+                        let inviaButton = await innerFrame.$('.quiz-control-panel__text-label')
+                        await clickIframeChild(inviaButton)
+                    }
+                    async function clickRivediQuiz(){
+                        let innerFrame = await getInnerFrame(page_1)
+                        let rivediButton = await innerFrame.$('.player-shape-view_button')
+                        await clickIframeChild(rivediButton)
+                    }
+                    async function clickCloseRevision(){
+                        let closeRevisionButton
+                        let innerFrame = await getInnerFrame(page_1)
+                        let buttons = await innerFrame.$$('.quiz-control-panel__button')
+                        for(let button of buttons){
+                            let text = await button.evaluate(elem => elem.textContent)
+                            if(text == "CHIUDERE LA REVISIONE")
+                                closeRevisionButton = button
+                        }
+                        if(closeRevisionButton)
+                            await clickIframeChild(closeRevisionButton)
+                    }
+                    async function clickProssimoRevision(){
+                        let closeRevisionButton
+                        let innerFrame = await getInnerFrame(page_1)
+                        let buttons = await innerFrame.$$('.quiz-control-panel__button')
+                        for(let button of buttons){
+                            let text = await button.evaluate(elem => elem.textContent)
+                            if(text == "PROSSIMO")
+                                closeRevisionButton = button
+                        }
+                        if(closeRevisionButton)
+                            await clickIframeChild(closeRevisionButton)
+                    }
+
+
+                    // if(correctAnswers.length == 0){
+                    //     await clickAnswer(questions[0])
+                    // }
+
+
+
+
+
+                    //Una mappa usata per tenere traccia di quale risposta sia corretta per 
+                    //questa sezione del quiz, viene memorizzato il numero x di "Domanda x/y"
+                    //e ci viene salvato il testo della domanda corretta
+                    //otteniamo da "quizQuestionRecord[x]" una mappa che contiene
+                    //"risposteSbagliate = [String]" lista delle risposte sbagliate
+                    //"rispostaCorretta = String" la risposta corretta da cliccare
+                    //TO-DO Potrei differenziare questo dizionario per nome del quiz
+                    // let quizQuestionRecord = {}
+
                     let inTest = await isInTestQuiz(page_1)
                     let quizDone = await isTestQuizDone(page_1)
-                    let quizFailed = false
+                    let quizFailed = await isTestQuizFailed(page_1)
+                    //esperimento
                     while(inTest && !quizDone && !quizFailed){
+                        //Ottengo il numero x del quiz
+                        let innerFrame = await getInnerFrame(page_1)
+
+                        let questionNumber = await innerFrame.$eval('.quiz-top-panel__question-score-info', elem => elem.textContent.split(' ')[1]);
+                        //ottengo il record, che equivale al testo della risposta corretta
+                        let record = quizQuestionRecord[questionNumber]
+
+                        if(record) {
+                            //se il record è presente prendo i dati
+                            let {risposteSbagliate, rispostaCorretta} = record 
+                            if(rispostaCorretta){
+                                //se è presente la risposta corretta la clicchiamo e andiamo avanti
+                                await clickAnswerText(rispostaCorretta)
+                                await clickInviaQuiz()
+                            } else {
+                                //se non è presente controlliamo le risposte sbagliate e le escludiamo
+                                let questionsText = await getAllAnswers()
+                                if(risposteSbagliate){
+                                    for(let x of risposteSbagliate){
+                                        questionsText = removeFromArr(x, questionsText)
+                                    }
+                                }
+                                //rimosse le risposte che sappiamo essere sbagliate dobbiamo
+                                //decidere quale risposta cliccare in base a quante volte
+                                //compare nel testo del quiz precedente
+                                let text = fs.readFileSync(lastWroteSlideText)
+                                let previousCount = -1
+                                let risposta
+                                for(let x of questionsText){
+                                    let count = countQuestionMatches(x, text)
+                                    if(count > previousCount){
+                                        previousCount = count 
+                                        risposta = x
+                                    }
+                                }
+                                quizQuestionRecord[questionNumber].risposta = risposta
+                                console.log(quizQuestionRecord)
+                                await clickAnswerText(risposta)
+                                await clickInviaQuiz()
+                            }
+                        }else{
+                            //se il record è null vuol dire che non è stata trovata
+                            let questionsText = await getAllAnswers()
+                            let text = fs.readFileSync(lastWroteSlideText)
+                            let previousCount = -1
+                            let risposta
+                            for(let x of questionsText){
+                                let count = countQuestionMatches(x, text)
+                                if(count > previousCount){
+                                    previousCount = count 
+                                    risposta = x
+                                }
+                            }
+                            quizQuestionRecord[questionNumber] = {risposta, risposteSbagliate: []}
+                            console.log(quizQuestionRecord)
+                            await clickAnswerText(risposta)
+                            await clickInviaQuiz()
+                        }
+                        // let answersText = await getAllAnswers()
+                        // for(let answer of answersText){
+                        //     let record = answersRecord[answer]
+                        //     //se il record è nullo allora 
+                        //     if()
+                        // }
+                        await timer(2 * 1000)
+
                         inTest = await isInTestQuiz(page_1)
                         quizDone = await isTestQuizDone(page_1)
                         quizFailed = await isTestQuizFailed(page_1)
-                        await timer(5 * 1000)
-                        console.log("In attesa di completamento test...")
                     }
-                    if(quizDone){
+                    if(inTest && quizFailed){
+                        console.log('Test Fallito')
+                        await clickRivediQuiz()
+                        let questionNumber = 0
+                        let questionTotal = 1
+                        let finished = false
+                        while(!finished){
+                            ({questionNumber,questionTotal} = await questionProgress(page_1))
+                            if(questionNumber >= questionTotal)
+                                finished = true
+                            let innerFrame = await getInnerFrame(page_1)
+                            let popupCorretto = await innerFrame.$('.quiz-feedback-panel__header_correct')
+                            let record = quizQuestionRecord[questionNumber]
+                            if(popupCorretto != null){
+                                //la risposta data era corretta!
+                                if(!record.rispostaCorretta){
+                                    record.rispostaCorretta = record.risposta
+                                    delete record.risposta
+                                    delete record.risposteSbagliate
+                                }
+                            } else {
+                                if(!record.risposteSbagliate){
+                                    record.risposteSbagliate = []
+                                }
+                                record.risposteSbagliate.push(record.risposta)
+                                delete record.risposta
+                            }
+                            console.log(quizQuestionRecord)
+                            await clickProssimoRevision()
+                            await timer(1 * 1000)
+                        }
+                    }
+                    if(inTest && quizDone){
+                        quizQuestionRecord = {}
                         console.log('Test concluso')
                         advanceSlideProgress(slides)
                     }
-                    if(quizFailed){
-                        console.log('Test Fallito')
-                    }
                     await clickCloseSlide(page_1)
+
+
+                    // //Ciclo per fare una prima visione del corso
+                    // let questionIndex = 0
+                    // await timer(2 * 1000)
+                    // while(inTest && !quizDone && !quizFailed){
+                    //     questions = await innerFrame.$$('.choice-view')
+                    //     //implementare una regex per cercare il testo delle domande? troppo difficile per ora
+                    //     await clickAnswer(questions[questionIndex])
+                    //     await clickInviaQuiz()
+                    //     await timer(2 * 1000)
+                    //     inTest = await isInTestQuiz(page_1)
+                    //     quizDone = await isTestQuizDone(page_1)
+                    //     quizFailed = await isTestQuizFailed(page_1)
+                    // }
+
+                    // //Ciclo per vedere le risposte corrette
+                    // if(quizFailed){
+                    //     await clickRivediQuiz()
+                    //     await timer(3 * 1000)
+                    //     let randomCorrect = await clickedCorrectAnswer(page_1)
+                    //     if(randomCorrect){
+                    //         let innerFrame = await getInnerFrameHandle(page_1)
+                    //         let correctAnswerText = await innerFrame.evaluate(elem => {
+                    //             console.log(elem)
+                    //             let xTest = elem
+                    //             // return elem.querySelector('input[aria-checked="true"]').parentElement.parentElement.querySelector('.choice-content').textContent
+                    //         })
+                    //         correctAnswers.push(correctAnswerText)
+                    //     }
+                    //     // await timer(4 * 1000)
+                    // }
+
+
+
+
+                    //VECCHIO SISTEMA!!
+                    // //Ciclo per selezionare le risposte corrette
+                    // while(inTest && !quizDone && !quizFailed){
+                    //     inTest = await isInTestQuiz(page_1)
+                    //     quizDone = await isTestQuizDone(page_1)
+                    //     quizFailed = await isTestQuizFailed(page_1)
+                    //     await timer(5 * 1000)
+                    //     console.log("In attesa di completamento test...")
+                    // }
+                    // if(quizDone){
+                    //     console.log('Test concluso')
+                    //     advanceSlideProgress(slides)
+                    // }
+                    // if(quizFailed){
+                    //     console.log('Test Fallito')
+                    // }
+                    // await clickCloseSlide(page_1)
                     
 
 
