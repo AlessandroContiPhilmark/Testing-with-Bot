@@ -137,6 +137,7 @@ async function clickedCorrectAnswer(page_1){
 async function clickContinueSlide(page_1){
     var innerFrame = await getInnerFrame(page_1)
     var button = await innerFrame.$('.message-box-buttons-panel__window-button')
+    if(button == null) return
 
     var mainFrame = await getMainFrameHandle(page_1)
     innerFrame = await getInnerFrameHandle(page_1)
@@ -583,6 +584,7 @@ async function play(){
                     async function clickContinueQuiz(page_1){
                         var innerFrame = await getInnerFrame(page_1)
                         var button = await innerFrame.$('.window-button.window-button_cancel')
+                        if(button == null) return
 
                         var mainFrame = await getMainFrameHandle(page_1)
                         innerFrame = await getInnerFrameHandle(page_1)
