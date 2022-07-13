@@ -273,7 +273,7 @@ async function fiddleWithSlide(page_1, folderPath, slideName){
         await clickPlay(page_1)
 
 
-        console.log(number, time, position + " / " + targetPosition)
+        // console.log(number, time, position + " / " + targetPosition)
 
         if(isLastSlide && isTimeOver){
             doFiddle = false
@@ -770,7 +770,6 @@ async function play(){
                                     }
                                 }
                                 quizQuestionRecord[questionNumber].risposta = risposta
-                                console.log(quizQuestionRecord)
                                 await clickAnswerText(risposta)
                                 await clickInviaQuiz()
                             }
@@ -788,7 +787,6 @@ async function play(){
                                 }
                             }
                             quizQuestionRecord[questionNumber] = {risposta, risposteSbagliate: []}
-                            console.log(quizQuestionRecord)
                             await clickAnswerText(risposta)
                             await clickInviaQuiz()
                         }
@@ -804,6 +802,7 @@ async function play(){
                         quizDone = await isTestQuizDone(page_1)
                         quizFailed = await isTestQuizFailed(page_1)
                     }
+                    console.log(quizQuestionRecord)
                     if(inTest && quizFailed){
                         console.log('Test Fallito')
                         await clickRivediQuiz()
@@ -831,7 +830,6 @@ async function play(){
                                 record.risposteSbagliate.push(record.risposta)
                                 delete record.risposta
                             }
-                            console.log(quizQuestionRecord)
                             await clickProssimoRevision()
                             await timer(1 * 1000)
                         }
