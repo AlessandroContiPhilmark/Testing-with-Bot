@@ -438,7 +438,7 @@ function writeLogFile(errorMessage) {
     fs.writeFileSync(fileName, fileContent)
 }
 
-
+let doCycleSlides
 function advanceSlideProgress(slides){
     slideIndex++
     progress.slideIndex++
@@ -501,7 +501,7 @@ async function play(){
             var numberOfFolders = await openFolder(page_1, folderIndex)
             await timer(2 * 1000)
             
-            var doCycleSlides = true
+            doCycleSlides = true
             while(doCycleSlides) {
 
                 var slides = await getSlides(page_1, folderIndex)
