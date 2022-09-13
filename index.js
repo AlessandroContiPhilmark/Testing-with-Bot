@@ -523,6 +523,7 @@ async function play(){
                 var MainFrame = await getMainFrame(page_1)
                 var divDomanda = await MainFrame.$('#domanda')
                 //TODO continua da qui
+                await timer(3 * 1000)
                 if(!(await isInTestQuiz(page_1))) {
                     // await timer(2 * 1000)
         
@@ -733,11 +734,12 @@ async function play(){
                     let quizDone = await isTestQuizDone(page_1)
                     let quizFailed = await isTestQuizFailed(page_1)
                     //esperimento
+                    let questionNumber = 0
                     while(inTest && !quizDone && !quizFailed){
                         //Ottengo il numero x del quiz
                         let innerFrame = await getInnerFrame(page_1)
 
-                        let questionNumber = await innerFrame.$eval('.quiz-top-panel__question-score-info', elem => elem.textContent.split(' ')[1]);
+                        questionNumber++
                         //ottengo il record, che equivale al testo della risposta corretta
                         let record = quizQuestionRecord[questionNumber]
 
@@ -802,15 +804,14 @@ async function play(){
                         quizDone = await isTestQuizDone(page_1)
                         quizFailed = await isTestQuizFailed(page_1)
                     }
-                    console.log(quizQuestionRecord)
                     if(inTest && quizFailed){
                         console.log('Test Fallito')
                         await clickRivediQuiz()
-                        let questionNumber = 0
-                        let questionTotal = 1
+                        let questionTotal = questionNumber
+                        questionNumber = 0
                         let finished = false
                         while(!finished){
-                            ({questionNumber,questionTotal} = await questionProgress(page_1))
+                            questionNumber++
                             if(questionNumber >= questionTotal)
                                 finished = true
                             let innerFrame = await getInnerFrame(page_1)
@@ -839,6 +840,7 @@ async function play(){
                         console.log('Test concluso')
                         advanceSlideProgress(slides)
                     }
+                    console.log(quizQuestionRecord)
                     await clickCloseSlide(page_1)
 
 
